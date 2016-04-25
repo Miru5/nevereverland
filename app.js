@@ -109,13 +109,13 @@ app.post('/api/set-class', function(req, res) {
 //get online users
 app.get('/api/online-users', function(req, res) {
     activeUsers.push({"usr":"miru"});
-    activeUsers.push({"usr":"daci"});
+    activeUsers.push({"usr":"anon"});
 
 res.contentType('application/json');
 res.send(JSON.stringify(activeUsers));
 
 })
 
-app.listen(8080);
+app.listen(port);
 
 console.log("Listening to PORT "+ port);
