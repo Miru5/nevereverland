@@ -12,6 +12,11 @@ var uristring =
 
 mongo.connect(uristring, {}, function(error, db){
 var users = db.collection("users");
+users.find({"username":username}).toArray(function (err, items) {
+        hash = items[0]["password"];
+        res.send(hash);
+  });
+
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
   db.addListener("error", function(error){
