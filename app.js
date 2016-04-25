@@ -39,8 +39,9 @@ var users = db.collection("Users");
 users.find({"username":"xmy"}).toArray(function (err, items) {
        var hash = items[0]["password"];
         res.send(hash);
+    });
   });
-});
+})
 
 
   
