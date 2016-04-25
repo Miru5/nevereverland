@@ -30,7 +30,7 @@ app.get('/api/users', function(req, res) {
     var password = req.param('password');
     var a = " ";
     var hash = "";
-    MongoClient.connect("mongodb://localhost:27017/local", function(err, db) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("users")
 
         //login
