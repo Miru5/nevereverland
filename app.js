@@ -31,7 +31,7 @@ app.get('/api/users', function(req, res) {
     var a = " ";
     var hash = "";
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
-        var users = db.collection("users")
+        var users = db.collection("Users")
 
         //login
         users.find({"username":username}).toArray(function (err, items) {
