@@ -109,7 +109,7 @@ app.get('/api/logout', function(req, res) {
 var username = req.param('username');
 var index = activeUsers.indexOf(username);
 if (index > -1) {
-    activeUsers.splice(index, 1);
+  activeUsers = activeUsers.splice(index, 1);
 }
 res.contentType('application/json');
 res.send(JSON.stringify(activeUsers));
