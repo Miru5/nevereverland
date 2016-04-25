@@ -24,7 +24,35 @@ app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
+//add user
+app.post('/api/add_user', function(req, res) {
+    var username = req.param('username');
+    var email = req.param('email');
+    var password = req.param('password');
+    var salt = bcrypt.genSaltSync(10);
+    var hash = "hush";
 
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+        var users = db.collection("Users")
+        users.find({"email": email}).toArray(function (err, items) {
+            users.count({email: email}, function (err, count){
+                if(count>0){
+                    res.send("error");
+                }
+                else {
+
+                        hash = bcrypt.hashSync(password, salt);
+                        password = hash;
+
+                    users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0});
+                    res.send("ok");
+                }
+            });
+
+
+        });
+    });
+})
 
 //login
 app.get('/api/users', function(req, res) {
