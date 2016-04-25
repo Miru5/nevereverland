@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
-    'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
+    'mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 var MongoClient = mongo.MongoClient;
 
 // var Schema = mongoose.Schema
