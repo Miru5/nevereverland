@@ -37,21 +37,8 @@ app.get("/", function(req, res) {
   res.json({"message" : "Hey World!"});
 });
 
-app.get('/api/users', function(req, res) {
-   
-mongo.MongoClient.connect(uristring, function (err, db) {
-  if (err) throw err;
-//   var users = db.collection("Users");
-//   users.find({"username":"xmy"}).toArray(function (err, items){
-//         console.log('mere ',items[0]["password"]);
-//                     res.send(items);
-//                 }
-//             });
-//         });
-    });
 
-   
-      
+  
 
 // bind the app to listen for connections on a specified port
 var port = process.env.PORT || 3000;
