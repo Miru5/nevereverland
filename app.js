@@ -24,7 +24,7 @@ app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
-mongo.connect(uristring, {}, function(error, db){
+  MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
 var users = db.collection("Users");
 activeUsers = [];
   });
@@ -110,22 +110,6 @@ res.send(JSON.stringify(activeUsers));
 
 })
 
-app.listen(8080);
-
-
-// app.get("/api/users", function(req, res) {
-//     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx" , function(err, db) {
-//     var users = db.collection("Users")
-//     //login
-//     users.find({"username": "xmy"}).toArray(function (err, items) {
-//         res.send(items);
-//         });
-//     });
-// })
-
-
-
-  
 
 // bind the app to listen for connections on a specified port
 var port = process.env.PORT || 3000;
