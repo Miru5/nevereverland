@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var router = express.Router();
 mongo = require('mongodb');
-
+var mongoose = require('mongoose');
 var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
@@ -46,19 +46,31 @@ var MongoClient = mongo.MongoClient;
 //     console.log("Error connecting to MongoLab");
 //   });
 // });
+var MongoClient = require("mongodb").MongoClient
 
+MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+    var users = db.collection("Users")
+    //login
+    users.find({"username": "xmy"}).toArray(function (err, items) {
+        console.log(items);
+    });
+})
 
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
 app.get("/api/users", function(req, res) {
-    MongoClient.connect(uristring , {}, function(error, db){
-var users = db.collection("Users");
-   users.find({"username":"xmy"}).toArray(function (err, items) {
-   res.send("mere");
-  });
+    MongoClient.connect(uristring, function(err, db){
+        var col = db.collection('Users');
+        coll.find({}, function(err, cursor) {
+            cursor.toArray(function(err, data) {
+               res.send(data);
+            });
+        });
+    });
 })
+
 
 
   
