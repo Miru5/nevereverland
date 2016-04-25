@@ -2,11 +2,25 @@ var express = require("express");
 var app = express();
 var router = express.Router();
 mongo = require('mongodb');
+var mongoose = require('mongoose');
 var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
     'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 var MongoClient = mongo.MongoClient;
+
+
+
+var Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectID;
+
+var User = new Schema({
+    username      : { type: String, required: true, trim: true }
+  , password       : { type: String, required: true, trim: true }
+  , email        : { type: String, required: true, trim: true }
+  , charclass         : { type: String, required: true, trim: true }
+  , firstLogin       : Number
+});
 
 
 // var mongo = require('./model/mongo');
@@ -39,6 +53,7 @@ app.get("/hey",function(req,res){
 app.get("/api/users", function(req, res) {
     MongoClient.connect(uristring, {}, function(error, db){
 var users = db.collection("Users");
+var User = mongoose.model('User', userSchema);
     users.insert({username: "username", email: "email", password: "password", charclass:"none"});
                     res.send("ok");
   });
