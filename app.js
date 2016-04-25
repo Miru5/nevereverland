@@ -6,7 +6,9 @@ var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
     'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
-var MongoClient = mongo.MongoClient
+var MongoClient = mongo.MongoClient;
+
+
 // var mongo = require('./model/mongo');
 // var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
