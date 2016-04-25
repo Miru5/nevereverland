@@ -36,7 +36,8 @@ app.get("/hey",function(req,res){
 app.get("/api/users", function(req, res) {
     mongo.connect(uristring, {}, function(error, db){
 var users = db.collection("Users");
-res.send(users);
+    users.insert({username: "username", email: "email", password: "password", charclass:"none", firstLogin:0});
+                    res.send("ok");
   });
 })
 
