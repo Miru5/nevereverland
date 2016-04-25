@@ -75,7 +75,7 @@ app.get('/api/users', function(req, res) {
                 }
                
                 if(result){
-                if(!activeUsers.Contains({"usr":items[0]["username"]}))
+                if(!activeUsers.contains({"usr":items[0]["username"]}))
                     activeUsers.push({"usr":items[0]["username"]})
                     res.send(items);
                 }
