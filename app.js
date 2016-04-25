@@ -57,7 +57,7 @@ app.get("/api/users", function(req, res) {
     var users = db.collection("Users")
     //login
     users.find({"username": "xmy"}).toArray(function (err, items) {
-        console.log(items);
+        res.send(items);
         });
     });
 })
