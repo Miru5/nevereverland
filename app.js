@@ -1,6 +1,6 @@
 var http = require('http');
  
-var server = http.CreateServer(function(req,res){
+var server = http.createServer(function(req,res){
 res.WriteHead(200, {'Content-Type':'text/html'});
 res.send('<h1>Hello World</h1>');
 }); 
