@@ -48,7 +48,7 @@ mongo.MongoClient.connect(uristring, function (err, db) {
                 }
             });
         });
-    });
+    })
    
       
 
