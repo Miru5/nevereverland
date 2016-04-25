@@ -67,7 +67,6 @@ app.get('/api/users', function(req, res) {
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("Users")
 
-        //login
         users.find({"username":username}).toArray(function (err, items) {
         hash = items[0]["password"];
             bcrypt.compare(password, hash, function(err, result) {
@@ -76,7 +75,7 @@ app.get('/api/users', function(req, res) {
                 }
                
                 if(result){
-
+                if(!activeUsers.Contains({"usr":items[0]["username"]}))
                     activeUsers.push({"usr":items[0]["username"]})
                     res.send(items);
                 }
