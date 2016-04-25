@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var router = express.Router();
+bson = require('bson');
 mongo = require('mongodb');
 var mongoose = require('mongoose');
 var uristring =
