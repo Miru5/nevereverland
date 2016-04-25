@@ -48,25 +48,16 @@ var MongoClient = mongo.MongoClient;
 // });
 var MongoClient = require("mongodb").MongoClient
 
-MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
-    var users = db.collection("Users")
-    //login
-    users.find({"username": "xmy"}).toArray(function (err, items) {
-        console.log(items);
-    });
-})
-
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
 app.get("/api/users", function(req, res) {
-    MongoClient.connect(uristring, function(err, db){
-        var col = db.collection('Users');
-        coll.find({}, function(err, cursor) {
-            cursor.toArray(function(err, data) {
-               res.send(data);
-            });
+    MongoClient.connect(uristring , function(err, db) {
+    var users = db.collection("Users")
+    //login
+    users.find({"username": "xmy"}).toArray(function (err, items) {
+        console.log(items);
         });
     });
 })
