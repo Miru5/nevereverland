@@ -17,7 +17,7 @@ var uristring =
     'mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 
 var MongoClient = require("mongodb").MongoClient
-
+var activeUsers = [];
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
