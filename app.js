@@ -10,12 +10,19 @@ var uristring =
 // var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
 
-mongo.connect(uristring, {}, function(error, db){
-var users = db.collection("Users");
-users.find({"username":"xmy"}).toArray(function (err, items) {
-        hash = items[0]["password"];
-        res.send(hash);
-  });
+mongo.MongoClient.connect(uristring, function (err, database) {
+  if (err) throw err;
+  db = database;
+  users = db.collection("Users");
+  res.send(users);
+});
+
+// mongo.connect(uristring, {}, function(error, db){
+// var users = db.collection("Users");
+// users.find({"username":"xmy"}).toArray(function (err, items) {
+//         hash = items[0]["password"];
+//         res.send(hash);
+//   });
 
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
