@@ -1,14 +1,14 @@
-var express = require('express')
-  , bodyParser = require('body-parser')
-  , request = require('request').defaults({json: true});
-
-// 1
+var express = require("express");
 var app = express();
 
-var port = Number(process.env.PORT || 8080);
-
-var server = app.listen(port, function () {
-  var host = server.address().address;
-  console.log('App listening at http://localhost:8080', host, port);
+// Set up a URL route
+app.get("/", function(req, res) {
+ res.send("Heroku <3!");
 });
 
+// bind the app to listen for connections on a specified port
+var port = process.env.PORT || 3000;
+app.listen(port);
+
+// Render some console log output
+console.log("Listening on port " + port);
