@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient
 
-var URL = 'mongodb://localhost:27017/local'
+var URL = 'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx'
 
 MongoClient.connect(URL, function(err, db) {
   if (err) return
