@@ -14,7 +14,7 @@ mongo.MongoClient.connect(uristring, function (err, database) {
   if (err) throw err;
   db = database;
   users = db.collection("Users");
-  res.send(users);
+  console.log('mere');
 });
 
 // mongo.connect(uristring, {}, function(error, db){
