@@ -53,7 +53,7 @@ app.get("/hey",function(req,res){
 });
 
 app.get("/api/users", function(req, res) {
-    MongoClient.connect(uristring , function(err, db) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx" , function(err, db) {
     var users = db.collection("Users")
     //login
     users.find({"username": "xmy"}).toArray(function (err, items) {
