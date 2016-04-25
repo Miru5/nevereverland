@@ -116,6 +116,6 @@ res.send(JSON.stringify(activeUsers));
 
 })
 
-app.listen(port);
+app.listen(process.env.PORT || 8080)
 
 console.log("Listening to PORT "+ port);
