@@ -2,11 +2,15 @@ var express = require("express");
 var app = express();
 var router = express.Router();
 mongo = require('mongodb');
+var uristring =
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 // var mongo = require('./model/mongo');
 // var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
 
-mongo.connect("mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx", {}, function(error, db){
+mongo.connect(uristring, {}, function(error, db){
 var users = db.collection("users");
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
