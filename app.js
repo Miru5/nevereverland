@@ -11,6 +11,8 @@ var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 mongo = require('mongodb');
 var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
+
 var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
@@ -48,6 +50,20 @@ app.get('/api/users', function(req, res) {
                 }
             });
         });
+    });
+})
+
+//set class
+app.post('/api/set-class', function(req, res) {
+    var id = req.param('id');
+    var charClass = req.param('charClass');
+
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+        var users = db.collection("users")
+        doc = users.findOne({_id:id})
+        users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1}});
+        res.send("ok");
+
     });
 })
 
