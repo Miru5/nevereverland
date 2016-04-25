@@ -1,10 +1,15 @@
-var http = require('http');
- 
-var server = http.createServer(function(req,res){
-res.writeHead(200, {'Content-Type':'text/html'});
-res.send('<h1>Hello World</h1>');
-}); 
+var express = require('express')
+  , bodyParser = require('body-parser')
+  , request = require('request').defaults({json: true})
+  , httpProxy = require('http-proxy');
+
+// 1
+var app = express();
 
 var port = Number(process.env.PORT || 8080);
 
-server.listen(port);
+var server = app.listen(port, function () {
+  var host = server.address().address;
+  console.log('App listening at http://localhost:8080', host, port);
+});
+
