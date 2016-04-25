@@ -12,7 +12,9 @@ mongo.connect("mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx
   db.addListener("error", function(error){
     console.log("Error connecting to MongoLab");
   });
-  
+});
+
+
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
