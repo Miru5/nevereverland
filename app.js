@@ -102,12 +102,8 @@ app.post('/api/set-class', function(req, res) {
 
 // get list of online users
 app.get('/api/online-users', function(req, res) {
-    activeUsers.push({"usr":"miru"});
-    activeUsers.push({"usr":"anon"});
-
 res.contentType('application/json');
 res.send(JSON.stringify(activeUsers));
-
 })
 
 
