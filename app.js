@@ -105,18 +105,11 @@ res.contentType('application/json');
 res.send(JSON.stringify(activeUsers));
 })
 
-function removeByValue(arr, val) {
-    for(var i=0; i<arr.length; i++) {
-        if(arr[i] == val) {
-            arr.splice(i, 1);
-            break;
-        }
-    }
-}
+
 
 app.get('/api/logout', function(req, res) {
 var username = req.param('username');
- removeByValue(activeUsers,username);
+ delete activeUsers[username];
 // var index = activeUsers.indexOf(username);
 // if (index > -1) {
 //   activeUsers.splice(index, 1);
