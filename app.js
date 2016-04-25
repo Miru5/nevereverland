@@ -26,10 +26,10 @@ mongo.MongoClient.connect(uristring, function (err, database) {
 
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
-  db.addListener("error", function(error){
-    console.log("Error connecting to MongoLab");
-  });
-});
+//   db.addListener("error", function(error){
+//     console.log("Error connecting to MongoLab");
+//   });
+// });
 
 
 app.get("/hey",function(req,res){
