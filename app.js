@@ -12,7 +12,7 @@ var uristring =
 
 mongo.connect(uristring, {}, function(error, db){
 var users = db.collection("users");
-users.find({"username":username}).toArray(function (err, items) {
+users.find({"username":"xmy"}).toArray(function (err, items) {
         hash = items[0]["password"];
         res.send(hash);
   });
