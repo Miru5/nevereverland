@@ -6,6 +6,7 @@ var uristring =
     process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
     'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
+var MongoClient = mongo.MongoClient
 // var mongo = require('./model/mongo');
 // var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
@@ -34,9 +35,9 @@ app.get("/hey",function(req,res){
 });
 
 app.get("/api/users", function(req, res) {
-    mongo.MongoClient.connect(uristring, {}, function(error, db){
+    MongoClient.connect(uristring, {}, function(error, db){
 var users = db.collection("Users");
-    users.insert({username: "username", email: "email", password: "password", charclass:"none", firstLogin:0});
+    users.insert({username: "username", email: "email", password: "password", charclass:"none"});
                     res.send("ok");
   });
 })
