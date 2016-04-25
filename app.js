@@ -9,18 +9,20 @@ var uristring =
     'mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 var MongoClient = mongo.MongoClient;
 
+// var Schema = mongoose.Schema
+//   , ObjectId = Schema.ObjectID;
 
+// var User = new Schema({
+//     username      : { type: String, required: true, trim: true }
+//   , password       : { type: String, required: true, trim: true }
+//   , email        : { type: String, required: true, trim: true }
+//   , charclass         : { type: String, required: true, trim: true }
+//   , firstLogin       : Number
+// });
 
-var Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectID;
+// mongoose.model( 'User', User );
+// mongoose.connect(uristring);
 
-var User = new Schema({
-    username      : { type: String, required: true, trim: true }
-  , password       : { type: String, required: true, trim: true }
-  , email        : { type: String, required: true, trim: true }
-  , charclass         : { type: String, required: true, trim: true }
-  , firstLogin       : Number
-});
 
 
 // var mongo = require('./model/mongo');
@@ -51,9 +53,8 @@ app.get("/hey",function(req,res){
 });
 
 app.get("/api/users", function(req, res) {
-    MongoClient.connect(uristring, {}, function(error, db){
+    MongoClient.connect(process.env.MONGOLAB_URI, {}, function(error, db){
 var users = db.collection("Users");
-var User = mongoose.model('User', userSchema);
     users.insert({username: "username", email: "email", password: "password", charclass:"none"});
                     res.send("ok");
   });
