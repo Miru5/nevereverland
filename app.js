@@ -1,9 +1,18 @@
 var express = require("express");
 var app = express();
 var router = express.Router();
-var mongo = require('./model/mongo');
-var MongoClient = require("mongodb").MongoClient
+// var mongo = require('./model/mongo');
+// var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
+
+mongo.connect(process.env.MONGOLAB_URI, {}, function(error, db){
+
+  // console.log will write to the heroku log which can be accessed via the 
+  // command line as "heroku logs"
+  db.addListener("error", function(error){
+    console.log("Error connecting to MongoLab");
+  });
+  
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
