@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var router = express.Router();
 // Set up a URL route
-router.get("/hey",function(req,res){
+app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
