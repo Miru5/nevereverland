@@ -63,7 +63,6 @@ app.post('/api/add_user', function(req, res) {
 app.get('/api/users', function(req, res) {
     var username = req.param('username');
     var password = req.param('password');
-    var a = " ";
     var hash = "";
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("Users")
@@ -102,6 +101,16 @@ app.post('/api/set-class', function(req, res) {
 
 // get list of online users
 app.get('/api/online-users', function(req, res) {
+res.contentType('application/json');
+res.send(JSON.stringify(activeUsers));
+})
+
+app.get('/api/logout', function(req, res) {
+var username = req.param('username');
+var index = array.indexOf(username);
+if (index > -1) {
+    activeUsers.splice(index, 1);
+}
 res.contentType('application/json');
 res.send(JSON.stringify(activeUsers));
 })
