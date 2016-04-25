@@ -38,41 +38,17 @@ app.get("/", function(req, res) {
 });
 
 app.get('/api/users', function(req, res) {
-    var username = req.param('username');
-    var password = req.param('password');
-    var a = " ";
-    var hash = "";
-    mongo.MongoClient.connect(uristring, function (err, db) {
+   
+mongo.MongoClient.connect(uristring, function (err, db) {
   if (err) throw err;
   var users = db.collection("Users");
    users.find({"username":"xmy"}).toArray(function (err, items){
         console.log('mere ',items[0]["password"]);
-        hash = items[0]["password"];
-            bcrypt.compare(password, hash, function(err, result) {
-                if(err==null){
-                    result === true
-                }
-               
-                if(result){
-
-                    activeUsers.push({"usr":items[0]["username"]})
                     res.send(items);
                 }
             });
-            // users.count({username:username}, function (err, count){
-            //     if(count>0){
-            //         res.send(items);
-            //     }
-            //     else {
-            //        res.send("error");
-            //     }
-            // });
-
-
         });
     });
-  
-});
    
       
 
