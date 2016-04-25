@@ -7,7 +7,8 @@ mongo = require('mongodb');
 // Set up a URL route
 
 mongo.connect("mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx", {}, function(error, db){
-
+var users = db.collection("users");
+res.send(users);
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
   db.addListener("error", function(error){
