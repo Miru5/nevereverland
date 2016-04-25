@@ -118,24 +118,31 @@ var index = activeUsers.indexOf(username);
 if (index > -1) {
   activeUsers = activeUsers.splice(index, 1);
 }
- removeByValue(activeUsers,username);
+
+
+function removeByValue(arr,name){
+    for(var i = 0; i < arr.length; i++) {
+        if(arr[i].usr == name) {
+            arr.splice(i, 1);
+            break;
+        }
+    }
+}
 //  var index = activeUsers.indexOf(username);
 //  if (index > -1) {
 //   activeUsers.splice(index, 1);
 //  }
+
+
  res.contentType('application/json');
  res.send(JSON.stringify(activeUsers));
  })
 
 app.get('/api/logout', function(req, res) {
 var username = req.param('username');
- delete activeUsers[username];
-// var index = activeUsers.indexOf(username);
-// if (index > -1) {
-//   activeUsers.splice(index, 1);
-// }
-res.contentType('application/json');
-res.send(JSON.stringify(activeUsers));
+  removeByValue(activeUsers,username);
+    res.contentType('application/json');
+    res.send(JSON.stringify(activeUsers));
 })
 
 
