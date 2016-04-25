@@ -7,7 +7,6 @@ router.get("/hey",function(req,res){
 });
 
 app.get("/", function(req, res) {
- res.send("Heroku <3!");
   res.json({"message" : "Hey World!"});
 });
 
