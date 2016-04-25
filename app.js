@@ -11,7 +11,7 @@ var uristring =
 // Set up a URL route
 
 mongo.connect(uristring, {}, function(error, db){
-var users = db.collection("users");
+var users = db.collection("Users");
 users.find({"username":"xmy"}).toArray(function (err, items) {
         hash = items[0]["password"];
         res.send(hash);
