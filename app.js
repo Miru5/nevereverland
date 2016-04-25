@@ -5,7 +5,7 @@ var router = express.Router();
 // var MongoClient = require("mongodb").MongoClient
 // Set up a URL route
 
-mongo.connect(process.env.MONGOLAB_URI, {}, function(error, db){
+mongo.connect("mongodb://heroku_tn8g3mwx@ds013340.mlab.com:13340/heroku_tn8g3mwx", {}, function(error, db){
 
   // console.log will write to the heroku log which can be accessed via the 
   // command line as "heroku logs"
