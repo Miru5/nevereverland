@@ -95,6 +95,18 @@ app.post('/api/set-class', function(req, res) {
     });
 })
 
+// get list of online users
+app.get('/api/online-users', function(req, res) {
+    activeUsers.push({"usr":"miru"});
+    activeUsers.push({"usr":"anon"});
+
+res.contentType('application/json');
+res.send(JSON.stringify(activeUsers));
+
+})
+
+app.listen(8080);
+
 
 // app.get("/api/users", function(req, res) {
 //     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx" , function(err, db) {
