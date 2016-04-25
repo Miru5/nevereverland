@@ -59,7 +59,7 @@ app.post('/api/set-class', function(req, res) {
     var charClass = req.param('charClass');
 
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
-        var users = db.collection("users")
+        var users = db.collection("Users")
         doc = users.findOne({_id:id})
         users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1}});
         res.send("ok");
