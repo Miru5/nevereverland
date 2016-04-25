@@ -1,7 +1,6 @@
 var express = require('express')
   , bodyParser = require('body-parser')
-  , request = require('request').defaults({json: true})
-  , httpProxy = require('http-proxy');
+  , request = require('request').defaults({json: true});
 
 // 1
 var app = express();
