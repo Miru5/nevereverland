@@ -14,9 +14,8 @@ mongo.MongoClient.connect(uristring, function (err, database) {
   if (err) throw err;
   db = database;
   users = db.collection("Users");
-   users.find({"username":"xmy"}).toArray(function (err, items) {
-        hash = items[0]["password"];
-        console.log('mere ',hash);
+   users.find({"username":"xmy"}).toArray(function (err, items){
+        console.log('mere ',items[0]["password"]);
   });
   
 });
