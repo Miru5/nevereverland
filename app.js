@@ -24,6 +24,11 @@ app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
+mongo.connect(uristring, {}, function(error, db){
+var users = db.collection("Users");
+activeUsers = [];
+  });
+
 //add user
 app.post('/api/add_user', function(req, res) {
     var username = req.param('username');
