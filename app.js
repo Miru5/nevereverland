@@ -33,8 +33,13 @@ app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
 
-app.get("/", function(req, res) {
-  res.json({"message" : "Hey World!"});
+app.get("/api/users", function(req, res) {
+    mongo.connect(uristring, {}, function(error, db){
+var users = db.collection("Users");
+users.find({"username":"xmy"}).toArray(function (err, items) {
+       var hash = items[0]["password"];
+        res.send(hash);
+  });
 });
 
 
