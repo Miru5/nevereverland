@@ -54,7 +54,7 @@ app.get("/hey",function(req,res){
 });
 
 app.get("/api/users", function(req, res) {
-    MongoClient.connect(process.env.MONGOLAB_URI, {}, function(error, db){
+    MongoClient.connect(uristring , {}, function(error, db){
 var users = db.collection("Users");
     users.insert({username: "username", email: "email", password: "password", charclass:"none"});
                     res.send("ok");
