@@ -112,6 +112,44 @@ function removeByValue(arr, val) {
     }
 }
 
+// send msg
+
+send = function(from,to,msg,callback){
+    request(
+        {
+            method: 'POST',
+            uri: 'https://android.googleapis.com/gcm/send',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+            },
+            body: JSON.stringify({
+                "data": {
+                    "fromu": from,
+                    "to": to,
+                    "msg": msg,
+                },
+                "time_to_live": 108
+            })
+        }
+
+        , function (error, response, body) {
+
+            callback({'response': "Success"});
+        }
+    )
+}
+
+app.post('api/send',function(req,res) {
+    from = req.param('username');
+    to = req.param('friend');
+    msg = req.param('message');
+    send(from,to,msg,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
+
 
 function removeByValue(arr,name){
     for(var i = 0; i < arr.length; i++) {
