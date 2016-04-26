@@ -112,13 +112,6 @@ function removeByValue(arr, val) {
     }
 }
 
- app.get('/api/logout', function(req, res) {
- var username = req.param('username');
-var index = activeUsers.indexOf(username);
-if (index > -1) {
-  activeUsers = activeUsers.splice(index, 1);
-}
-
 
 function removeByValue(arr,name){
     for(var i = 0; i < arr.length; i++) {
