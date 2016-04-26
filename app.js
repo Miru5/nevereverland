@@ -140,7 +140,7 @@ send = function(from,to,msg,callback){
     )
 }
 
-app.post('api/send',function(req,res) {
+app.post('/api/send',function(req,res) {
     from = req.param('username');
     to = req.param('friend');
     msg = req.param('message');
