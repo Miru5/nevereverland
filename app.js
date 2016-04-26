@@ -12,6 +12,7 @@ var SALT_WORK_FACTOR = 10;
 mongo = require('mongodb');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
+var request = require('request');
 
 var uristring =
     process.env.MONGOLAB_URI ||
