@@ -10,5 +10,5 @@ var userSchema = mongoose.Schema({
      temp_str:String 
 });  
 
-mongoose.connect('mongodb://localhost:27017/dear'); 
+mongoose.connect('mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx'); 
 module.exports = mongoose.model('users', userSchema);
