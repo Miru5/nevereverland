@@ -50,7 +50,7 @@ app.post('/api/add_user', function(req, res) {
                         hash = bcrypt.hashSync(password, salt);
                         password = hash;
 
-                    users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0});
+                    users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0, reg_id:"none"});
                     res.send("ok");
                 }
             });
@@ -83,6 +83,20 @@ app.get('/api/users', function(req, res) {
         });
     });
 })
+
+//set reg id
+app.post('/api/setID', function(req, res) {
+    var id = req.param('id');
+    var regID = req.param('regID');
+
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+        var users = db.collection("Users")
+        doc = users.findOne({_id:id})
+        users.update({'_id' : new ObjectId(id)}, {$set: {charclass:reg_id,regID}});
+        res.send("ok");
+    });
+})
+
 
 //set class
 app.post('/api/set-class', function(req, res) {
