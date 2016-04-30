@@ -92,7 +92,7 @@ app.post('/api/setID', function(req, res) {
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("Users")
         doc = users.findOne({_id:id})
-        users.update({'_id' : new ObjectId(id)}, {$set: {charclass:reg_id,regID}});
+        users.update({'_id' : new ObjectId(id)}, {$set: {reg_id:regID}});
         res.send("ok");
     });
 })
