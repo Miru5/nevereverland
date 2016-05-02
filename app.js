@@ -129,7 +129,8 @@ function removeByValue(arr, val) {
 
 // send msg
 
-send = function(from,to,msg,callback){
+send = function(from,to_id,msg,callback){
+
     request(
         {
             method: 'POST',
@@ -139,13 +140,13 @@ send = function(from,to,msg,callback){
                 'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
             },
             body: JSON.stringify({
-                "data": {
-                    "fromu": from,
-                    "to": to,
-                    "msg": msg,
-                },
-                "time_to_live": 108
-            })
+  "registration_ids" : to_id,
+  "data" : {
+    "msg":msg,
+    "fromu":from
+  },
+  "time_to_live": 108
+})
         }
 
         , function (error, response, body) {
@@ -157,7 +158,7 @@ send = function(from,to,msg,callback){
 
 app.post('/api/send',function(req,res) {
     from = req.param('username');
-    to = req.param('friend');
+    to = req.param('reg_id');
     msg = req.param('message');
     send(from,to,msg,function (found) {
         console.log(found);
