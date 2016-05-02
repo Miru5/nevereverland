@@ -157,9 +157,9 @@ send = function(from,to_id,msg,callback){
 }
 
 app.post('/api/send',function(req,res) {
-    from = req.param('username');
-    to = req.param('reg_id');
-    msg = req.param('message');
+   var from = req.param('username');
+    var to = req.param('reg_id');
+     var msg = req.param('message');
     send(from,to,msg,function (found) {
         console.log(found);
         res.json(found);
