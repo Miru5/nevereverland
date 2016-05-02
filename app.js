@@ -129,8 +129,14 @@ function removeByValue(arr, val) {
 
 // send msg
 
-send = function(from,to_id,msg,callback){
-
+send = function(from,to,msg,callback){
+     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+        var users = db.collection("Users")
+  users.find({"username":to}).toArray(function (err, items) {
+       var reg_id = items[0]["reg_id"];
+            users.count({username: to}, function (err, count){
+                if(count>0){
+                 
     request(
         {
             method: 'POST',
@@ -140,7 +146,7 @@ send = function(from,to_id,msg,callback){
                 'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
             },
             body: JSON.stringify({
-  "registration_ids" : to_id,
+  "registration_id" : reg_id,
   "data" : {
     "msg":msg,
     "fromu":from
@@ -154,11 +160,14 @@ send = function(from,to_id,msg,callback){
             callback({'response': "Success"});
         }
     )
+                }
+            }
+}
 }
 
 app.post('/api/send',function(req,res) {
    var from = req.param('username');
-    var to = req.param('reg_id');
+    var to = req.param('friend');
      var msg = req.param('message');
     send(from,to,msg,function (found) {
         console.log(found);
