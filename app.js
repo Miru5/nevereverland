@@ -129,49 +129,47 @@ function removeByValue(arr, val) {
 
 // send msg
 
-send = function(from,to,msg,callback){
-     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
-        var users = db.collection("Users")
-      users.find({"username":username}).toArray(function (err, items) {
-       var reg_id = items[0]["reg_id"];
-      
-    request(
-        {
-            method: 'POST',
-            uri: 'https://android.googleapis.com/gcm/send',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-            },
-            body: JSON.stringify({
-                "registration_ids" : reg_id,
-                "data": {
-                    "fromu": from,
-                    "to": to,
-                    "msg": msg,
-                },
-                "time_to_live": 108
+ send = function (from, to, msg, callback) {
+        MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
+            var users = db.collection("Users")
+            users.find({"username": to}).toArray(function (err, items) {
+                var reg_id = items[0]["reg_id"];
+                request(
+                    {
+                        method: 'POST',
+                        uri: 'https://android.googleapis.com/gcm/send',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+                        },
+                        body: JSON.stringify({
+                            "registration_id": reg_id,
+                            "data": {
+                                "msg": msg,
+                                "fromu": from
+                            },
+                            "time_to_live": 108
+                        })
+                    }
+
+                    , function (error, response, body) {
+
+                        callback({'response': "Success"});
+                    }
+                )
             })
-        }
+        })
+    }
 
-        , function (error, response, body) {
-
-            callback({'response': "Success"});
-        }
-    )
-      }
-     }
-}
-
-app.post('/api/send',function(req,res) {
-   var from = req.param('username');
-    var to = req.param('friend');
-     var msg = req.param('message');
-    send(from,to,msg,function (found) {
-        console.log(found);
-        res.json(found);
-    });
-})
+    app.post('/api/send', function (req, res) {
+        var from = req.param('username');
+        var to = req.param('friend');
+        var msg = req.param('message');
+        send(from, to, msg, function (found) {
+            console.log(found);
+            res.json(found);
+        });
+    })
 
 
 function removeByValue(arr,name){
