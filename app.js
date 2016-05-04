@@ -80,6 +80,10 @@ app.post('/api/add_user', function(req, res) {
                         activeUsers.push({"usr": items[0]["username"]})
                         res.send(items);
                     }
+                    else
+                    {
+                        res.send("error");
+                    }
                 });
             });
         });
