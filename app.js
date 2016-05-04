@@ -182,7 +182,7 @@ function removeByValue(arr,name){
 }
 
 
-app.get('/api/logout', function(req, res) {
+app.post('/api/logout', function(req, res) {
 var username = req.param('username');
   removeByValue(activeUsers,username);
     res.contentType('application/json');
