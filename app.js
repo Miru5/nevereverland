@@ -76,8 +76,13 @@ app.get('/api/users', function(req, res) {
                 }
                
                 if(result){
-                    activeUsers.push({"usr":items[0]["username"]})
+                    if (activeUsers.indexOf(username) > -1) {
+     activeUsers.push({"usr":items[0]["username"]})
                     res.send(items);
+} else {
+   
+}
+                  
                 }
             });
         });
