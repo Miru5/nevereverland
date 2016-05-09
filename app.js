@@ -141,12 +141,13 @@ function removeByValue(arr, val) {
             var users = db.collection("Users")
             users.find({"username": to}).toArray(function (err, items) {
                 var reg_id = items[0]["reg_id"];
-                var msg = {
+                var msg =  body: JSON.stringify({
   registration_ids: reg_id,
   time_to_live: 180, 
   data: {
     message: "mere"
   }
+                })
 };
 gcm.send(msg, function(err, response) {
   console.log(response); 
