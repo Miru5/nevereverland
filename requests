@@ -1,59 +1,106 @@
-var requests = require('config/requests');
+var mongoose = require('mongoose');
 var request = require('request');
+var user = require('config/models');
+ 
+exports.login = function(name,mobno,reg_id,callback) {
+ 
+var newuser = new user({
+    name: name,
+    mobno: mobno,
+    reg_id: reg_id});
+ 
+user.find({mobno: mobno},function(err,users){
+ 
+var len = users.length;
+ 
+if(len == 0){
+    newuser.save(function (err) {
+ 
+    callback({'response':"Sucessfully Registered"});
+ 
+});
+}else{
+ 
+    callback({'response':"User already Registered"});
+ 
+}});
+}
+exports.getuser = function(mobno,callback) {
+ 
+user.find(function(err,users){
+ 
+var len = users.length;
+ 
+if(len == 0){
  
  
-module.exports = function(app) {
+    callback({'response':"No Users Registered"});
+ 
+ 
+}else{
+callback(removeUser(users, mobno));
+ 
+}});
+}
+ 
+ 
+exports.removeuser = function(mobno,callback) {
+ 
+user.remove({mobno:mobno},function(err,users){
+ 
+    if(!err){
+ 
+        callback({'response':"Removed Sucessfully"});
+    }else{
+        callback({'response':"Error"});
+    }
+});
+}
  
  
  
-    app.get('/', function(req, res) {
+exports.send = function(fromn,fromu,to,msg,callback) {
  
-        res.end("Node-Android-Chat-Project");
-    });
+user.find({mobno: to},function(err,users){
+var len = users.length;
+if(len == 0){
+callback({'response':"Failure"});
+}else{
+    var to_id = users[0].reg_id;
+    var name = users[0].name;
  
+request(
+    { method: 'POST',
+    uri: 'https://android.googleapis.com/gcm/send',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization':'key=Your API Key'
+    },
+    body: JSON.stringify({
+  "registration_ids" : [to_id],
+  "data" : {
+    "msg":msg,
+    "fromu":fromu,
+    "name":fromn
+  },
+  "time_to_live": 108
+})
+    }
+  , function (error, response, body) {
  
-    app.post('/login',function(req,res){
-        var name = req.body.name;
-            var mobno = req.body.mobno;
-            var reg_id = req.body.reg_id;
+      callback({'response':"Success"});
+    }
+  )
+}});
  
-        requests.login(name,mobno,reg_id,function (found) {
-            console.log(found);
-            res.json(found);
-    });
-    });
+}
  
-    app.post('/send',function(req,res){
-        var fromu = req.body.from;
-        var fromn = req.body.fromn;
-            var to = req.body.to;
-            var msg = req.body.msg;
- 
- 
-        requests.send(fromn,fromu,to,msg,function (found) {
-            console.log(found);
-            res.json(found);
-    });
-    });
- 
-    app.post('/getuser',function(req,res){
-        var mobno = req.body.mobno;
- 
-        requests.getuser(mobno,function (found) {
-            console.log(found);
-            res.json(found);
-    });
-    });
- 
-    app.post('/logout',function(req,res){
-        var mobno = req.body.mobno;
- 
- 
-        requests.removeuser(mobno,function (found) {
-            console.log(found);
-            res.json(found);
-    });
-    });
- 
- 
-};
+function removeUser(arr, val) {
+    for(var i=0; i<arr.length; i++) {
+        if(arr[i].mobno == val) {
+            arr.splice(i, 1);
+            return arr;
+            break;
+        }
+    }
+}
