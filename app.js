@@ -75,6 +75,7 @@ app.post('/api/add_user', function(req, res) {
 
                  //   users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0, reg_id:"none",xp:10,lvl:1});
                   users.insert({name: name,mobno:mobno,reg_id:reg_id});
+                  activeUsers.push({"usr": items[0]["username"]})
                   res.send("ok");
                 }
             });
@@ -197,7 +198,7 @@ function removeByValue(arr, val) {
             var msg = req.body.msg;
  
  
-        requests.send(fromn,fromu,to,msg,function (found) {
+        send(fromn,fromu,to,msg,function (found) {
             console.log(found);
             res.json(found);
     });
