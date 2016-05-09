@@ -168,7 +168,7 @@ callback({'response':"Failure"});
 }else{
     var to_id = users[0].reg_id;
     var name = users[0].name;
-               request(
+        request(
     { method: 'POST',
     uri: 'https://android.googleapis.com/gcm/send',
     headers: {
@@ -185,15 +185,14 @@ callback({'response':"Failure"});
   "time_to_live": 108
 })
     }
-
-                    , function (error, response, body) {
-
-                        callback({'response': "Success"});
-                    }
-                )
-            })
-        })
+  , function (error, response, body) {
+ 
+      callback({'response':"Success"});
     }
+  )
+}});
+ 
+}
 
    app.post('/send',function(req,res){
         var fromu = req.body.from;
