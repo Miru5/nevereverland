@@ -12,8 +12,8 @@ module.exports = function(app) {
     });
  
  
-    app.post('/login',function(req,res){
-        var name = req.body.name;
+    app.get('/login',function(req,res){
+           var name = req.body.name;
             var mobno = req.body.mobno;
             var reg_id = req.body.reg_id;
  
