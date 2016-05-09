@@ -13,6 +13,8 @@ mongo = require('mongodb');
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
 var request = require('request');
+var GCM = require('./gcm');
+var gcm = new GCM("AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4");
 
 var uristring =
     process.env.MONGOLAB_URI ||
@@ -139,30 +141,40 @@ function removeByValue(arr, val) {
             var users = db.collection("Users")
             users.find({"username": to}).toArray(function (err, items) {
                 var reg_id = items[0]["reg_id"];
-                request(
-                    {
-                        method: 'POST',
-                        uri: 'https://android.googleapis.com/gcm/send',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-                        },
-                        body: JSON.stringify({
-                            "registration_id": reg_id,
-                            "data": {
-                                "msg": msg,
-                                "fromu": from
-                            },
-                            "time_to_live": 108
+                var msg = {
+  registration_ids: reg_id,
+  time_to_live: 180, 
+  data: {
+    message: msg
+  }
+};
+gcm.send(msg, function(err, response) {
+  console.log(response); 
+});
+                // request(
+                //     {
+                //         method: 'POST',
+                //         uri: 'https://android.googleapis.com/gcm/send',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+                //         },
+                //         body: JSON.stringify({
+                //             "registration_id": reg_id,
+                //             "data": {
+                //                 "msg": msg,
+                //                 "fromu": from
+                //             },
+                //             "time_to_live": 108
                  
-                        })
-                    }
+                //         })
+                //     }
 
-                    , function (error, response, body) {
+                //     , function (error, response, body) {
 
-                        callback({'response': "Success"});
-                    }
-                )
+                //         callback({'response': "Success"});
+                //     }
+                // )
             })
         })
     }
