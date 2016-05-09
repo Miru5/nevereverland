@@ -41,6 +41,7 @@ module.exports = function(app) {
  
         requests.getuser(mobno,function (found) {
             console.log(found);
+            res.send("ok");
             res.json(found);
     });
     });
