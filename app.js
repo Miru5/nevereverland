@@ -58,7 +58,7 @@ activeUsers = [];
 //add user
 app.post('/api/add_user', function(req, res) {
     var name = req.param('name');
-    var mobno = req.param('email');
+    var mobno = req.param('mobno');
     var reg_id = req.param('reg_id');
     // var salt = bcrypt.genSaltSync(10);
     // var hash = "hush";
