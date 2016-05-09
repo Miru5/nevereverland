@@ -148,12 +148,17 @@ function removeByValue(arr, val) {
                             'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
                         },
                         body: JSON.stringify({
-                            "registration_id": reg_id,
+                            // "registration_id": reg_id,
+                            // "data": {
+                            //     "msg": msg,
+                            //     "fromu": from
+                            // },
+                            // "time_to_live": 108
                             "data": {
-                                "msg": msg,
-                                "fromu": from
-                            },
-                            "time_to_live": 108
+    "score": "5x1",
+    "time": "15:10"
+  },
+  "to" : reg_id
                         })
                     }
 
