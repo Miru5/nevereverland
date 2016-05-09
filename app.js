@@ -162,37 +162,33 @@ function removeByValue(arr, val) {
         MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
           users.find({mobno: to},function(err,users){
-var len = users.length;
-if(len == 0){
-callback({'response':"Failure"});
-}else{
-    var to_id = users[0].reg_id;
-    var name = users[0].name;
-        request(
-    { method: 'POST',
-    uri: 'https://android.googleapis.com/gcm/send',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization':'key=Your API Key'
-    },
-    body: JSON.stringify({
-  "registration_ids" : [to_id],
-  "data" : {
-    "msg":msg,
-    "fromu":fromu,
-    "name":fromn
-  },
-  "time_to_live": 108
-})
+ var reg_id = items[0]["reg_id"];
+                request(
+                    {
+                        method: 'POST',
+                        uri: 'https://android.googleapis.com/gcm/send',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+                        },
+                        body: JSON.stringify({
+                            "registration_id": reg_id,
+                            "data": {
+                                "msg": msg,
+                                "fromu": from
+                            },
+                            "time_to_live": 108
+                        })
+                    }
+
+                    , function (error, response, body) {
+
+                        callback({'response': "Success"});
+                    }
+                )
+            })
+        })
     }
-  , function (error, response, body) {
- 
-      callback({'response':"Success"});
-    }
-  )
-}});
- 
-}
 
    app.post('/send',function(req,res){
         var fromu = req.body.from;
