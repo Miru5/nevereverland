@@ -141,8 +141,6 @@ function removeByValue(arr, val) {
             var users = db.collection("Users")
             users.find({"username": to}).toArray(function (err, items) {
                 var reg_id = items[0]["reg_id"];
-                var msg =  body: JSON.stringify({
- 
                 request(
                     {
                         method: 'POST',
@@ -152,13 +150,12 @@ function removeByValue(arr, val) {
                             'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
                         },
                         body: JSON.stringify({
-                            "registration_id": reg_id,
+                            "registration_ids": reg_id,
                             "data": {
-                                "msg": "mesg",
+                                "message": "mere",
                                 "fromu": from
                             },
                             "time_to_live": 108
-                 
                         })
                     }
 
