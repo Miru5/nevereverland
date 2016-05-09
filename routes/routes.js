@@ -1,4 +1,4 @@
-var requests = require('requests');
+var requests = require('./requests');
 var request = require('request');
  
  
