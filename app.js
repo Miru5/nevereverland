@@ -142,40 +142,31 @@ function removeByValue(arr, val) {
             users.find({"username": to}).toArray(function (err, items) {
                 var reg_id = items[0]["reg_id"];
                 var msg =  body: JSON.stringify({
-  registration_ids: reg_id,
-  time_to_live: 180, 
-  data: {
-    message: "mere"
-  }
-                })
-};
-gcm.send(msg, function(err, response) {
-  console.log(response); 
-});
-                // request(
-                //     {
-                //         method: 'POST',
-                //         uri: 'https://android.googleapis.com/gcm/send',
-                //         headers: {
-                //             'Content-Type': 'application/json',
-                //             'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-                //         },
-                //         body: JSON.stringify({
-                //             "registration_id": reg_id,
-                //             "data": {
-                //                 "msg": msg,
-                //                 "fromu": from
-                //             },
-                //             "time_to_live": 108
+ 
+                request(
+                    {
+                        method: 'POST',
+                        uri: 'https://android.googleapis.com/gcm/send',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+                        },
+                        body: JSON.stringify({
+                            "registration_id": reg_id,
+                            "data": {
+                                "msg": "mesg",
+                                "fromu": from
+                            },
+                            "time_to_live": 108
                  
-                //         })
-                //     }
+                        })
+                    }
 
-                //     , function (error, response, body) {
+                    , function (error, response, body) {
 
-                //         callback({'response': "Success"});
-                //     }
-                // )
+                        callback({'response': "Success"});
+                    }
+                )
             })
         })
     }
