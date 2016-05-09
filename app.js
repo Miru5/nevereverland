@@ -172,7 +172,7 @@ function removeByValue(arr, val) {
         'Authorization':'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
     },
     body: JSON.stringify({
-  "registration_ids" : [to_id],
+  "registration_ids" : reg_id,
   "data" : {
     "msg":msg,
     "fromu":fromu,
