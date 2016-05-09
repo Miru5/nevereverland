@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var request = require('request');
-var user = require('./models.js');
+var user = require('../models.js');
  
 exports.login = function(name,mobno,reg_id,callback) {
  
