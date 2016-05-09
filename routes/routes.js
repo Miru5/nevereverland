@@ -1,5 +1,5 @@
-var requests = require('config/requests');
-var request = require('request');
+var requests = require('/requests');
+var request = require('/request');
  
  
 module.exports = function(app) {
