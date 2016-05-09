@@ -162,7 +162,7 @@ function removeByValue(arr, val) {
  send = function (fromn,fromu,to,msg,callback) {
         MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
-          users.find({mobno: to},function(err,users){
+          users.find({mobno: to},function(err,items){
  var reg_id = items[0]["reg_id"];
  request(
     { method: 'POST',
