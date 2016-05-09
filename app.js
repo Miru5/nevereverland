@@ -145,7 +145,7 @@ function removeByValue(arr, val) {
   registration_ids: reg_id,
   time_to_live: 180, 
   data: {
-    message: msg
+    message: "mere"
   }
 };
 gcm.send(msg, function(err, response) {
