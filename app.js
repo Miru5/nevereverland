@@ -169,7 +169,7 @@ function removeByValue(arr, val) {
     uri: 'https://android.googleapis.com/gcm/send',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+        'Authorization':'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
     },
     body: JSON.stringify({
   "registration_ids" : [to_id],
