@@ -158,11 +158,16 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function (from, to, msg, callback) {
+ send = function (fromn,fromu,to,msg,callback) {
         MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
-            users.find({"username": to}).toArray(function (err, items) {
-                var reg_id = items[0]["reg_id"];
+          users.find({mobno: to},function(err,users){
+var len = users.length;
+if(len == 0){
+callback({'response':"Failure"});
+}else{
+    var to_id = users[0].reg_id;
+    var name = users[0].name;
                request(
     { method: 'POST',
     uri: 'https://android.googleapis.com/gcm/send',
@@ -180,11 +185,6 @@ function removeByValue(arr, val) {
   "time_to_live": 108
 })
     }
-  , function (error, response, body) {
- 
-      callback({'response':"Success"});
-    }
-  )
 
                     , function (error, response, body) {
 
@@ -195,15 +195,18 @@ function removeByValue(arr, val) {
         })
     }
 
-    app.post('/api/send', function (req, res) {
-        var from = req.param('username');
-        var to = req.param('friend');
-        var msg = req.param('message');
-        send(from, to, msg, function (found) {
+   app.post('/send',function(req,res){
+        var fromu = req.body.from;
+        var fromn = req.body.fromn;
+            var to = req.body.to;
+            var msg = req.body.msg;
+ 
+ 
+        requests.send(fromn,fromu,to,msg,function (found) {
             console.log(found);
             res.json(found);
-        });
-    })
+    });
+    });
 
 
 function removeByValue(arr,name){
