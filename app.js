@@ -163,24 +163,24 @@ function removeByValue(arr, val) {
             var users = db.collection("Users")
           users.find({mobno: to},function(err,users){
  var reg_id = items[0]["reg_id"];
-                request(
-                    {
-                        method: 'POST',
-                        uri: 'https://android.googleapis.com/gcm/send',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-                        },
-                        body: JSON.stringify({
-                            "registration_id": reg_id,
-                            "data": {
-                                "msg": msg,
-                                "fromu": from
-                            },
-                            "time_to_live": 108
-                        })
-                    }
-
+ request(
+    { method: 'POST',
+    uri: 'https://android.googleapis.com/gcm/send',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization':'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+    },
+    body: JSON.stringify({
+  "registration_ids" : [to_id],
+  "data" : {
+    "msg":msg,
+    "fromu":fromu,
+    "name":fromn
+  },
+  "time_to_live": 108
+})
+    }
+              
                     , function (error, response, body) {
 
                         callback({'response': "Success"});
