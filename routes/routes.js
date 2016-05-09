@@ -1,4 +1,4 @@
-var requests = require('./config/requests.js');
+var requests = require('../config/requests.js');
 var request = require('request');
  
  
