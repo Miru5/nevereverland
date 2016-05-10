@@ -52,7 +52,9 @@ app.post('/api/add_user', function(req, res) {
                     res.send("error");
                 }
                 else {
-                  users.insert({username: username, email: email, password: hash, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
+                    hash = bcrypt.hashSync(password, salt);
+                    password = hash;
+                  users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
                   res.send("ok");
                     }
                 });
