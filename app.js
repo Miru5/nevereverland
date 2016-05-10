@@ -26,6 +26,7 @@ var uristring =
 
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
+var onlineUsers = [];
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
@@ -123,6 +124,16 @@ app.post('/api/set-class', function(req, res) {
     });
 })
 
+function ArrNoDupe(a) {
+    var temp = {};
+    for (var i = 0; i < a.length; i++)
+        temp[a[i]] = true;
+    var r = [];
+    for (var k in temp)
+        r.push(k);
+    return r;
+}
+
 // get list of online users
 app.get('/api/online-users', function(req, res) {
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
@@ -131,12 +142,10 @@ app.get('/api/online-users', function(req, res) {
               res.contentType('application/json');
               for(var i = 0;i<items.length;i++)
               {
-                  if (activeUsers.indexOf(items[i]["username"]) == -1) {
-                activeUsers.push({"usr":items[i]["username"]})
-                }
-      
+               activeUsers.push({"usr":items[i]["username"]})
               }
-              res.send(JSON.stringify(activeUsers));
+              onlineUsers = ArrNoDupe(activeUsers);
+              res.send(JSON.stringify(onlineUsers));
                 });
             });
         });
