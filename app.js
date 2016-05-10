@@ -76,8 +76,11 @@ app.post('/api/add_user', function(req, res) {
 
             //login
             users.find({"username": username}).toArray(function (err, items) {
-                hash = items[0]["password"];
+                   users.count({username: username}, function (err, count){
+                if(count>0){
+                      hash = items[0]["password"];
                 id = items[0]["_id"]
+                
                 bcrypt.compare(password, hash, function (err, result) {
                     if (err == null) {
                         result === true
@@ -90,6 +93,11 @@ app.post('/api/add_user', function(req, res) {
                     else
                     {
                         res.send("error");
+                    }
+                });
+                }
+                else {
+                   res.send("error");
                     }
                 });
             });
