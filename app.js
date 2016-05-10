@@ -69,6 +69,7 @@ app.post('/api/add_user', function(req, res) {
         var password = req.param('password');
         var hash = "";
         var id = "this";
+        activeUsers = [];
         MongoClient.connect(URL, function (err, db) {
             var users = db.collection("Users")
 
