@@ -26,7 +26,7 @@ var uristring =
 
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
-var onlineUsers = [];
+var allMessages = [];
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
@@ -220,6 +220,25 @@ app.post('/api/send', function(req, res) {
                   res.send("ok");
     })
 })
+
+
+app.get('/api/convos', function(req, res) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
+            var convos = db.collection("Convos")
+            var player1 = req.param('player1');
+            var player2 = req.param('param2');
+            allMessages = [];
+            convos.find({"player1":player1,"player2",player2}).toArray(function (err, items) {
+              res.contentType('application/json');
+              for(var i = 0;i<items.length;i++)
+              {
+               allMessages.push({"msg":items[i]})
+              }
+              res.send(JSON.stringify(allMessages));
+                });
+              
+            });
+        });
 
 
 
