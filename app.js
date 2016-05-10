@@ -220,11 +220,12 @@ app.post('/api/send', function(req, res) {
     var player1 = req.param('player1');
     var player2 = req.param('player2');
     var text = req.param('text');
+    var date = req.param('date');
     
    
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var convos = db.collection("Convos")
-                  convos.insert({id: id, player1:player1,player2:player2, text: text,date:new Date()});
+                  convos.insert({id: id, player1:player1,player2:player2, text: text,date:date});
                   res.send("ok");
     })
 })
