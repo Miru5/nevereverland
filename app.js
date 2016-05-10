@@ -70,7 +70,7 @@ app.post('/api/add_user', function(req, res) {
         var password = req.param('password');
         var hash = "";
         var id = "this";
-        activeUsers = [];
+        
         MongoClient.connect(URL, function (err, db) {
             var users = db.collection("Users")
 
@@ -213,15 +213,14 @@ function removeByValue(arr, val) {
 
 app.post('/api/logout', function(req, res) {
 var username = req.param('username');
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
-        var users = db.collection("Users")
-        doc = users.findOne({username:username})
-        users.update({"status":"offline"});
-        removeByValue(activeUsers,username);
-        res.send("ok");
-    });
+    MongoClient.connect(URL, function (err, db) {
+            var users = db.collection("Users")
+            users.find({"username": username}).toArray(function (err, items) {
+                id = items[0]["_id"]
+                   users.update({'_id' : new ObjectId(id)}, {$set: {status:"offline"}});
+            });
+        });
 })
-
 
 
 // bind the app to listen for connections on a specified port
