@@ -125,7 +125,7 @@ app.post('/api/set-class', function(req, res) {
 
 // get list of online users
 app.get('/api/online-users', function(req, res) {
-    MongoClient.connect(URL, function (err, db) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
             users.find({"status": "online"}).toArray(function (err, items) {
               res.contentType('application/json');
