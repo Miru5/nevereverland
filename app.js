@@ -228,7 +228,7 @@ app.get('/api/convos', function(req, res) {
             var player1 = req.param('player1');
             var player2 = req.param('param2');
             allMessages = [];
-            convos.find({"player1":player1,"player2",player2}).toArray(function (err, items) {
+            convos.find({"player1":player1,"player2":player2}).toArray(function (err, items) {
               res.contentType('application/json');
               for(var i = 0;i<items.length;i++)
               {
