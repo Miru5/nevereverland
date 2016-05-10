@@ -206,10 +206,15 @@ function removeByValue(arr,name){
 
 app.post('/api/logout', function(req, res) {
 var username = req.param('username');
-  removeByValue(activeUsers,username);
-    res.contentType('application/json');
-    res.send(JSON.stringify(activeUsers));
+
+    MongoClient.connect(URL, function(err, db) {
+        var users = db.collection("Users")
+        doc = users.findOne({username:username})
+        users.update({'status':"offline"});
+        res.send("ok");
+    });
 })
+
 
 
 // bind the app to listen for connections on a specified port
