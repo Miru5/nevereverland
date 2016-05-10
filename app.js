@@ -134,7 +134,6 @@ app.get('/api/online-users', function(req, res) {
                 });
             });
         });
-})
 
 function removeByValue(arr, val) {
     for(var i=0; i<arr.length; i++) {
