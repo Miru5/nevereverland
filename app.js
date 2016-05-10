@@ -212,8 +212,7 @@ function removeByValue(arr, val) {
 
 app.post('/api/logout', function(req, res) {
 var username = req.param('username');
-
-    MongoClient.connect(URL, function(err, db) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("Users")
         doc = users.findOne({username:username})
         users.update({'status':"offline"});
