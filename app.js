@@ -144,9 +144,9 @@ app.get('/api/online-users', function(req, res) {
               {
                activeUsers.push({"usr":items[i]["username"]})
               }
+              res.send(JSON.stringify(activeUsers));
                 });
-              onlineUsers = ArrNoDupe(activeUsers);
-              res.send(JSON.stringify(onlineUsers));
+              
             });
         });
 
