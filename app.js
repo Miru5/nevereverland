@@ -45,7 +45,7 @@ app.post('/api/add_user', function(req, res) {
 
     MongoClient.connect(URL, function(err, db) {
         var users = db.collection("Users")
-        // users.find({"email": email}).toArray(function (err, items) {
+         users.find({"email": email}).toArray(function (err, items) {
         users.find({"username": username}).toArray(function (err, items) {
             users.count({username: username}, function (err, count){
                 if(count>0){
@@ -53,7 +53,7 @@ app.post('/api/add_user', function(req, res) {
                 }
                 else {
 
-                  users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
+                  users.insert({username: username, email: email, password: hash, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
                   res.send("ok");
                 }
             });
