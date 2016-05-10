@@ -194,20 +194,32 @@ function removeByValue(arr, val) {
         })
     }
 
-   app.post('/send',function(req,res){
-        var fromu = req.body.from;
-        var fromn = req.body.fromn;
-            var to = req.body.to;
-            var msg = req.body.msg;
+//   app.post('/send',function(req,res){
+//         var fromu = req.body.from;
+//         var fromn = req.body.fromn;
+//             var to = req.body.to;
+//             var msg = req.body.msg;
  
  
-        send(fromn,fromu,to,msg,function (found) {
-            console.log(found);
-            res.json(found);
-    });
-    });
+//         send(fromn,fromu,to,msg,function (found) {
+//             console.log(found);
+//             res.json(found);
+//     });
+//     });
 
-
+app.post('/api/send', function(req, res) {
+    var id = req.param('id');
+    var player1 = req.param('player1');
+    var player2 = req.param('player2');
+    var text = req.param('text');
+    
+   
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
+        var convos = db.collection("Convos")
+                  convos.insert({id: id, player1:player1,player2:player2, text: text,date:new Date()});
+                  res.send("ok");
+    })
+})
 
 
 
