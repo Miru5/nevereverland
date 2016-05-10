@@ -194,14 +194,7 @@ function removeByValue(arr, val) {
     });
 
 
-function removeByValue(arr,name){
-    for(var i = 0; i < arr.length; i++) {
-        if(arr[i].usr == name) {
-            arr.splice(i, 1);
-            break;
-        }
-    }
-}
+
 
 
 app.post('/api/logout', function(req, res) {
@@ -211,6 +204,7 @@ var username = req.param('username');
         var users = db.collection("Users")
         doc = users.findOne({username:username})
         users.update({'status':"offline"});
+        removeByValue(activeUsers,username);
         res.send("ok");
     });
 })
