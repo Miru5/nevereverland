@@ -138,6 +138,7 @@ function ArrNoDupe(a) {
 app.get('/api/online-users', function(req, res) {
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
+            activeUsers = [];
             users.find({"status": "online"}).toArray(function (err, items) {
               res.contentType('application/json');
               for(var i = 0;i<items.length;i++)
@@ -215,7 +216,7 @@ var username = req.param('username');
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var users = db.collection("Users")
         doc = users.findOne({username:username})
-        users.update({'status':"offline"});
+        users.update({"status":"offline"});
         removeByValue(activeUsers,username);
         res.send("ok");
     });
