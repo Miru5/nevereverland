@@ -68,12 +68,14 @@ app.post('/api/add_user', function(req, res) {
         var username = req.param('username');
         var password = req.param('password');
         var hash = "";
+        var id = "this";
         MongoClient.connect(URL, function (err, db) {
             var users = db.collection("Users")
 
             //login
             users.find({"username": username}).toArray(function (err, items) {
                 hash = items[0]["password"];
+                id = items[0]["_id"]
                 bcrypt.compare(password, hash, function (err, result) {
                     if (err == null) {
                         result === true
