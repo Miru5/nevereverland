@@ -139,7 +139,7 @@ app.get('/api/online-users', function(req, res) {
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
             activeUsers = [];
-            users.find({"status": "online"}).toArray(function (err, items) {
+            users.find({"status":"online"}).toArray(function (err, items) {
               res.contentType('application/json');
               for(var i = 0;i<items.length;i++)
               {
@@ -212,13 +212,10 @@ function removeByValue(arr, val) {
 
 
 app.post('/api/logout', function(req, res) {
-var username = req.param('username');
+var id = req.param('id');
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
-            users.find({"username": username}).toArray(function (err, items) {
-                id = items[0]["_id"]
                    users.update({'_id' : new ObjectId(id)}, {$set: {status:"offline"}});
-            });
         });
 })
 
