@@ -216,6 +216,7 @@ var id = req.param('id');
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
                    users.update({'_id' : new ObjectId(id)}, {$set: {status:"offline"}});
+                   res.send("ok");
         });
 })
 
