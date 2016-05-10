@@ -46,8 +46,8 @@ app.post('/api/add_user', function(req, res) {
     MongoClient.connect(URL, function(err, db) {
         var users = db.collection("Users")
         // users.find({"email": email}).toArray(function (err, items) {
-        users.find({"name": name}).toArray(function (err, items) {
-            users.count({name: name}, function (err, count){
+        users.find({"username": username}).toArray(function (err, items) {
+            users.count({username: username}, function (err, count){
                 if(count>0){
                     res.send("error");
                 }
