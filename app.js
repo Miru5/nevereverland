@@ -1,5 +1,4 @@
-
-
+require('newrelic');
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -179,48 +178,41 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function (from,to,msg,callback) {
-        MongoClient.connect(URL, function (err, db) {
-            var users = db.collection("Users")
-          users.find({"username": to}).toArray(function (err, items) {
- var reg_id = items[0]["reg_id"];
- request(
-    { method: 'POST',
-    uri: 'https://android.googleapis.com/gcm/send',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization':'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-    },
-    body: JSON.stringify({
-  "registration_ids" : reg_id,
-  "data" : {
-    "msg":msg,
-    "from":from,
-  },
-  "time_to_live": 108
-})
-    }
-              
-                    , function (error, response, body) {
-
-                        callback({'response': "Success"});
-                    }
-                )
+ send = function(from,to,msg,callback){
+    request(
+        {
+            method: 'POST',
+            uri: 'https://android.googleapis.com/gcm/send',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+            },
+            body: JSON.stringify({
+                "data": {
+                    "from": from,
+                    "to": to,
+                    "msg": msg,
+                },
+                "time_to_live": 108
             })
-        })
-    }
+        }
 
-  app.post('/send-gcm',function(req,res){
-        var fromu = req.param('from');
-            var to = req.param('to');
-            var msg = req.param('msg');
- 
- 
-        send(fromn,fromu,to,msg,function (found) {
-            console.log(found);
-            res.json(found);
+        , function (error, response, body) {
+
+            callback({'response': "Success"});
+        }
+    )
+}
+
+app.post('/api/sendgcm',function(req,res) {
+    var from = req.param('username');
+    var to = req.param('friend');
+    var msg = req.param('msg');
+    send(from,to,msg,function (found) {
+        console.log(found);
+        res.json(found);
     });
-    });
+})
 
 app.post('/api/send', function(req, res) {
     var player1 = req.param('player1');
