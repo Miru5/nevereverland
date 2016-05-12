@@ -189,7 +189,7 @@ function removeByValue(arr, val) {
     uri: 'https://android.googleapis.com/gcm/send',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
+        'Authorization':'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
     },
     body: JSON.stringify({
   "registration_ids" : reg_id,
@@ -211,18 +211,18 @@ function removeByValue(arr, val) {
         })
     }
 
-//   app.post('/send',function(req,res){
-//         var fromu = req.body.from;
-//         var fromn = req.body.fromn;
-//             var to = req.body.to;
-//             var msg = req.body.msg;
+  app.post('/send-gcm',function(req,res){
+        var fromu = req.body.from;
+        var fromn = req.body.fromn;
+            var to = req.body.to;
+            var msg = req.body.msg;
  
  
-//         send(fromn,fromu,to,msg,function (found) {
-//             console.log(found);
-//             res.json(found);
-//     });
-//     });
+        send(fromn,fromu,to,msg,function (found) {
+            console.log(found);
+            res.json(found);
+    });
+    });
 
 app.post('/api/send', function(req, res) {
     var player1 = req.param('player1');
