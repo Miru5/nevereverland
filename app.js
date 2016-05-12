@@ -87,7 +87,6 @@ app.post('/api/add_user', function(req, res) {
                     }
 
                     if (result) {
-                        users.update({'_id' : new ObjectId(id)}, {$set: {status:"online"}});
                         res.send(items);
                     }
                     else
@@ -113,6 +112,16 @@ app.post('/api/setID', function(req, res) {
         var users = db.collection("Users")
         doc = users.findOne({_id:id})
         users.update({'_id' : new ObjectId(id)}, {$set: {reg_id:regID}});
+        res.send("ok");
+    });
+})
+
+
+app.post('/api/status', function(req, res) {
+    var id = req.param('id');
+    MongoClient.connect(URL, function(err, db) {
+        var users = db.collection("Users")
+          users.update({'_id' : new ObjectId(id)}, {$set: {status:"online"}});
         res.send("ok");
     });
 })
