@@ -179,10 +179,10 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function (fromn,fromu,to,msg,callback) {
+ send = function (from,to,msg,callback) {
         MongoClient.connect(URL, function (err, db) {
             var users = db.collection("Users")
-          users.find({"mobno": to}).toArray(function (err, items) {
+          users.find({"username": to}).toArray(function (err, items) {
  var reg_id = items[0]["reg_id"];
  request(
     { method: 'POST',
@@ -195,8 +195,7 @@ function removeByValue(arr, val) {
   "registration_ids" : reg_id,
   "data" : {
     "msg":msg,
-    "fromu":fromu,
-    "name":fromn
+    "from":from,
   },
   "time_to_live": 108
 })
@@ -212,10 +211,9 @@ function removeByValue(arr, val) {
     }
 
   app.post('/send-gcm',function(req,res){
-        var fromu = req.body.from;
-        var fromn = req.body.fromn;
-            var to = req.body.to;
-            var msg = req.body.msg;
+        var fromu = req.param('from');
+            var to = req.param('to');
+            var msg = req.param('msg');
  
  
         send(fromn,fromu,to,msg,function (found) {
