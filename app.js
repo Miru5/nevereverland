@@ -5,7 +5,6 @@ var bodyParser = require("body-parser");
 var router = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
-var mongo = require('./model/mongo');
 var port = process.env.PORT || 8080;
 var router = express.Router();
 var bcrypt = require('bcrypt');
