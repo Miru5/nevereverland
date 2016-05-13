@@ -209,7 +209,7 @@ gcmObject.send(message, function(err, response) {});
                    res.send("error");
                     }
                 });
-            });
+        
  
 }
 
