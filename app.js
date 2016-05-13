@@ -1,4 +1,6 @@
 require('newrelic');
+var gcm = require('android-gcm');
+var gcmObject = new gcm.AndroidGcm('AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4');
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -178,15 +180,14 @@ function removeByValue(arr, val) {
 // send msg
 
  send = function(from,to,msg,callback){
-    request(
-        {
-            method: 'POST',
-            uri: 'https://android.googleapis.com/gcm/send',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'key=AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4'
-            },
-            body: JSON.stringify({
+     
+     users.find({"username": to}).toArray(function (err, items) {
+                   users.count({username: to}, function (err, count){
+                if(count>0){
+                var r_id = items[0]["reg_id"]
+                var message = new gcm.Message({
+    registration_ids: [r_id],
+     body: JSON.stringify({
                 "data": {
                     "from": from,
                     "to": to,
@@ -201,12 +202,22 @@ function removeByValue(arr, val) {
             callback({'response': "Success"});
         }
     )
+});
+gcmObject.send(message, function(err, response) {});
+                }
+                else {
+                   res.send("error");
+                    }
+                });
+            });
+ 
 }
 
 app.post('/api/sendgcm',function(req,res) {
     var from = req.param('username');
     var to = req.param('friend');
     var msg = req.param('msg');
+    
     send(from,to,msg,function (found) {
         console.log(found);
         res.json(found);
