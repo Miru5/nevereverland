@@ -180,44 +180,50 @@ function removeByValue(arr, val) {
 // send msg
 
  send = function(from,to,msg,callback){
-     
-     users.find({"username": to}).toArray(function (err, items) {
-                   users.count({username: to}, function (err, count){
-                if(count>0){
-                var r_id = items[0]["reg_id"]
-                var message = new gcm.Message({
-    registration_ids: [r_id],
-     body: JSON.stringify({
-                "data": {
-                    "from": from,
-                    "to": to,
-                    "msg": msg,
-                },
-                "time_to_live": 108
-            })
-        }
 
-        , function (error, response, body) {
+    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
+        var users = db.collection("Users")
+        var message = new gcm.Message();
+        users.find({"username": to}).toArray(function (err, items) {
+            users.count({username: to}, function (err, count) {
+                if (count > 0) {
+                    var r_id = items[0]["reg_id"]
+                     message = new gcm.Message({
+                            registration_ids: [r_id],
+                            body: JSON.stringify({
+                                "data": {
+                                    "from": from,
+                                    "to": to,
+                                    "msg": msg,
+                                },
+                                "time_to_live": 108
+                            })
+                        }
 
-            callback({'response': "Success"});
-        }
-    )
-});
-gcmObject.send(message, function(err, response) {});
+                        , function (error, response, body) {
+
+                            callback({'response': "Success"});
+                        }
+                    )
+                    gcmObject.send(message, function (err, response) {
+                    });
                 }
                 else {
-                   res.send("error");
-                    }
-                });
-        
- 
+                    res.send("error");
+                }
+
+            });
+
+        });
+
+    })
 }
 
 app.post('/api/sendgcm',function(req,res) {
     var from = req.param('username');
     var to = req.param('friend');
     var msg = req.param('msg');
-    
+
     send(from,to,msg,function (found) {
         console.log(found);
         res.json(found);
