@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
 var request = require('request');
 var GCM = require('./gcm');
-var gcm = new GCM("AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4");
+//var gcm = new GCM("AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4");
 var URL = "mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx"
 
 var uristring =
