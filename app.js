@@ -55,7 +55,7 @@ app.post('/api/add_user', function(req, res) {
                 else {
                     hash = bcrypt.hashSync(password, salt);
                     password = hash;
-                  users.insert({username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
+                  users.insert({reg_id:"none",username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
                   res.send("ok");
                     }
                 });
