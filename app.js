@@ -179,33 +179,28 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function(from,to,msg,callback){
+ send = function(from,to,msg,date,callback){
 
     MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
         var users = db.collection("Users")
-        var message = new gcm.Message();
+             var convos = db.collection("Convos")
+                  convos.insert({player1:from,player2:to,text:msg,date:date});
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
                 if (count > 0) {
                     var r_id = items[0]["reg_id"]
-                     message = new gcm.Message({
-                            registration_ids: [r_id],
-                            body: JSON.stringify({
-                                "data": {
-                                    "from": from,
-                                    "to": to,
-                                    "msg": msg,
-                                },
-                                "time_to_live": 108
-                            })
+                    var message = new gcm.Message({
+                        registration_ids: [r_id],
+                        data: {
+                            key1: from,
+                            key2: msg
                         }
-
-                        , function (error, response, body) {
-
+                    });
+                    console.log(message);
+                    gcmObject.send(message, function (err, response) {
+                        if(err==null){
                             callback({'response': "Success"});
                         }
-                    )
-                    gcmObject.send(message, function (err, response) {
                     });
                 }
                 else {
@@ -220,11 +215,12 @@ function removeByValue(arr, val) {
 }
 
 app.post('/api/sendgcm',function(req,res) {
-    var from = req.param('username');
-    var to = req.param('friend');
-    var msg = req.param('msg');
+    var from = req.param('player1');
+    var to = req.param('player2');
+    var msg = req.param('text');
+    var date = req.param('date');
 
-    send(from,to,msg,function (found) {
+    send(from,to,msg,date,function (found) {
         console.log(found);
         res.json(found);
     });
