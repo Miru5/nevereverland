@@ -37,13 +37,6 @@ MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx
   activeUsers = [];
 });
 
-
-
-  MongoClient.connect(URL, function(err, db) {
-
-
-  });
-
 //add user
 app.post('/api/add_user', function(req, res) {
     var username = req.param('username');
