@@ -138,6 +138,23 @@ function ArrNoDupe(a) {
     return r;
 }
 
+Array.prototype.contains = function(v) {
+    for(var i = 0; i < this.length; i++) {
+        if(this[i] === v) return true;
+    }
+    return false;
+};
+
+Array.prototype.unique = function() {
+    var arr = [];
+    for(var i = 0; i < this.length; i++) {
+        if(!arr.contains(this[i])) {
+            arr.push(this[i]);
+        }
+    }
+    return arr; 
+}
+
 // get list of online users
 app.get('/api/online-users', function(req, res) {
 
@@ -163,8 +180,8 @@ app.get('/api/online-users', function(req, res) {
             {
                 messagedUsers.push({"usr":items[i]["player2"]})
             }
-            messagedUsers = ArrNoDupe(messagedUsers);
-            res.send(JSON.stringify(messagedUsers));
+            var uniques = messagedUsers.unique();
+            res.send(JSON.stringify(uniques));
         });
     });
         
