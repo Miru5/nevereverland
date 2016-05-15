@@ -163,6 +163,7 @@ app.get('/api/online-users', function(req, res) {
             {
                 messagedUsers.push({"usr":items[i]["player2"]})
             }
+            messagedUsers = ArrNoDupe(messagedUsers);
             res.send(JSON.stringify(messagedUsers));
         });
     });
