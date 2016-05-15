@@ -160,11 +160,11 @@ app.get('/api/online-users', function(req, res) {
     var lastMessage;
     convos.find({$or:[{"player1":player1}, {"player2":player1}]},{"sort" : [['date', 'asc']]}).toArray(function (err, items) {
         res.contentType('application/json');
-        j = items.length;
+         for(var i = 0;i<items.length;i++)
+            {
+                messagedUsers.push({"msg":items[i]})
+            }
 
-            messagedUsers.push({"msg":items[items.length-1]});
-console.log(messagedUsers);
-        var result = (unique(messagedUsers)).concat(lastMessage);
         res.send(JSON.stringify(messagedUsers));
     });
 });
