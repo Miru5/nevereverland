@@ -17,12 +17,6 @@ var ObjectId = require('mongodb').ObjectID;
 var request = require('request');
 var GCM = require('./gcm');
 //var gcm = new GCM("AIzaSyBH-qEHaimY4Fg8Twsl_Uw24WLgvUrorL4");
-var URL = "mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx"
-
-var uristring =
-    process.env.MONGOLAB_URI ||
-    process.env.MONGOHQ_URL ||
-    'mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx';
 
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
@@ -52,8 +46,7 @@ app.post('/api/add_user', function(req, res) {
     var password = req.param('password');
     var salt = bcrypt.genSaltSync(10);
     var hash = "hush";
-
-    MongoClient.connect(URL, function(err, db) {
+    
         var users = db.collection("Users")
          users.find({"email": email}).toArray(function (err, items) {
         users.find({"username": username}).toArray(function (err, items) {
@@ -70,7 +63,7 @@ app.post('/api/add_user', function(req, res) {
                 });
             });
         });
-    })
+
 })
 
 //login
@@ -80,7 +73,6 @@ app.post('/api/add_user', function(req, res) {
         var hash = "";
         var id = "this";
         
-        MongoClient.connect(URL, function (err, db) {
             var users = db.collection("Users")
 
             //login
@@ -109,7 +101,6 @@ app.post('/api/add_user', function(req, res) {
                     }
                 });
             });
-        });
     })
 
 //set reg id
@@ -117,22 +108,19 @@ app.post('/api/setID', function(req, res) {
     var id = req.param('id');
     var regID = req.param('regID');
 
-    MongoClient.connect(URL, function(err, db) {
         var users = db.collection("Users")
         doc = users.findOne({_id:id})
         users.update({'_id' : new ObjectId(id)}, {$set: {reg_id:regID}});
         res.send("ok");
-    });
 })
 
 
 app.post('/api/status', function(req, res) {
     var id = req.param('id');
-    MongoClient.connect(URL, function(err, db) {
+    
         var users = db.collection("Users")
           users.update({'_id' : new ObjectId(id)}, {$set: {status:"online"}});
         res.send("ok");
-    });
 })
 
 
@@ -140,14 +128,11 @@ app.post('/api/status', function(req, res) {
 app.post('/api/set-class', function(req, res) {
     var id = req.param('id');
     var charClass = req.param('charClass');
-
-    MongoClient.connect(URL, function(err, db) {
+    
         var users = db.collection("Users")
         doc = users.findOne({_id:id})
         users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1}});
         res.send("ok");
-
-    });
 })
 
 function ArrNoDupe(a) {
@@ -187,7 +172,6 @@ function removeByValue(arr, val) {
 
  send = function(from,to,msg,date,callback){
 
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
         var users = db.collection("Users")
              var convos = db.collection("Convos")
                   convos.insert({player1:from,player2:to,text:msg,date:date});
@@ -216,8 +200,6 @@ function removeByValue(arr, val) {
             });
 
         });
-
-    })
 }
 
 app.post('/api/sendgcm',function(req,res) {
@@ -238,17 +220,13 @@ app.post('/api/send', function(req, res) {
     var text = req.param('text');
     var date = req.param('date');
     
-   
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, db) {
         var convos = db.collection("Convos")
                   convos.insert({player1:player1,player2:player2, text: text,date:date});
                   res.send("ok");
-    })
 })
 
 
 app.get('/api/convos', function(req, res) {
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
         var convos = db.collection("Convos")
         var player1 = req.param('player1');
         var player2 = req.param('player2');
@@ -262,19 +240,15 @@ app.get('/api/convos', function(req, res) {
             }
             res.send(JSON.stringify(allMessages));
         });
-
-    });
 });
 
 
 
 app.post('/api/logout', function(req, res) {
 var id = req.param('id');
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
+
             var users = db.collection("Users")
                    users.update({'_id' : new ObjectId(id)}, {$set: {status:"offline"}});
-                   res.send("ok");
-        });
 })
 
 
