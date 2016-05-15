@@ -154,20 +154,39 @@ app.get('/api/online-users', function(req, res) {
         });
         
         //get list of conversations by user
-  app.get('/api/messages', function(req, res) {
+ app.get('/api/messages', function(req, res) {
     messagedUsers = [];
-    var player1 = req.param('player1');
-    var lastMessage;
-    convos.find({$or:[{"player1":player1}, {"player2":player1}]},{"sort" : [['date', 'asc']]}).toArray(function (err, items) {
-        res.contentType('application/json');
-         for(var i = 0;i<items.length;i++)
+        var player1 = req.param('player1');
+        allMessages = [];
+    var msgs = [];
+    var uniques = {};
+    var distinct = [];
+
+        convos.find({$or:[{"player1":player1}, {"player2":player1}]},{"sort" : ['date', 'asc']}).toArray(function (err, items) {
+            res.contentType('application/json');
+            for(var i = 0;i<items.length;i++)
             {
-                messagedUsers.push({"msg":items[i]})
+                if(player1!=items[i]["player1"]){
+                messagedUsers.push({"usr":items[i]["player1"]}) ;
+                    allMessages.push(items[i]);
+            }else{
+                messagedUsers.push({"usr":items[i]["player2"]}) ;
+                    allMessages.push(items[i]);
             }
 
-        res.send(JSON.stringify(messagedUsers));
-    });
+            }
+            for( var i in messagedUsers ) {
+                if (typeof(uniques[messagedUsers[i].usr]) == "undefined") {
+                        distinct.push(messagedUsers[i]);
+                        uniques[messagedUsers[i].usr] = "";
+                }
+            }
+           // var result = distinct.concat(allMessages);
+            res.send(JSON.stringify(distinct));
+
+        });
 });
+
         
 
 function removeByValue(arr, val) {
