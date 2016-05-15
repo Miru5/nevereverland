@@ -154,19 +154,20 @@ app.get('/api/online-users', function(req, res) {
         });
         
         //get list of conversations by user
-        app.get('/api/messages', function(req, res) {
-            messagedUsers = [];
-             var player1 = req.param('player1');
+  app.get('/api/messages', function(req, res) {
+    messagedUsers = [];
+    var player1 = req.param('player1');
+    var lastMessage;
+    convos.find({$or:[{"player1":player1}, {"player2":player1}]},{"sort" : [['date', 'asc']]}).toArray(function (err, items) {
+        res.contentType('application/json');
+        j = items.length;
 
-        convos.find({"player1":player1}).sort({date: 1}).toArray(function (err, items) {
-            res.contentType('application/json');
-            for(var i = 0;i<items.length;i++)
-            {
-                messagedUsers.push({"usr":items[i]["player2"]},{"msg":items[i]})
-            }
-            res.send(JSON.stringify(unique(messagedUsers)));
-        });
+            messagedUsers.push({"msg":items[items.length-1]});
+console.log(messagedUsers);
+        var result = (unique(messagedUsers)).concat(lastMessage);
+        res.send(JSON.stringify(messagedUsers));
     });
+});
         
 
 function removeByValue(arr, val) {
