@@ -27,9 +27,18 @@ var uristring =
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
 var allMessages = [];
+var db;
 app.get("/hey",function(req,res){
     res.json({"message" : "Hey World!"});
 });
+
+
+MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, database) {
+  if(err) throw err;
+  db = database;
+});
+
+
 
   MongoClient.connect(URL, function(err, db) {
 var users = db.collection("Users");
@@ -153,7 +162,6 @@ function ArrNoDupe(a) {
 
 // get list of online users
 app.get('/api/online-users', function(req, res) {
-    MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function (err, db) {
             var users = db.collection("Users")
             activeUsers = [];
             users.find({"status":"online"}).toArray(function (err, items) {
@@ -164,8 +172,6 @@ app.get('/api/online-users', function(req, res) {
               }
               res.send(JSON.stringify(activeUsers));
                 });
-              
-            });
         });
 
 function removeByValue(arr, val) {
@@ -278,3 +284,5 @@ app.listen(port);
 
 // Render some console log output
 console.log("Listening on port " + port);
+
+
