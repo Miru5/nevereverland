@@ -21,6 +21,7 @@ var GCM = require('./gcm');
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
 var allMessages = [];
+var messagedUsers = [];
 var db;
 var users;
 var convos;
@@ -150,6 +151,22 @@ app.get('/api/online-users', function(req, res) {
               res.send(JSON.stringify(activeUsers));
                 });
         });
+        
+        //get list of conversations by user
+        app.get('/api/messages', function(req, res) {
+            messagedUsers = [];
+             var player1 = req.param('player1');
+
+        convos.find({"player1":player1}}).sort({date: 1}).toArray(function (err, items) {
+            res.contentType('application/json');
+            for(var i = 0;i<items.length;i++)
+            {
+                messagedUsers.push({"usr":items[i]["player2"]})
+            }
+            res.send(JSON.stringify(allMessages));
+        });
+    });
+        
 
 function removeByValue(arr, val) {
     for(var i=0; i<arr.length; i++) {
@@ -203,16 +220,6 @@ app.post('/api/sendgcm',function(req,res) {
         console.log(found);
         res.json(found);
     });
-})
-
-app.post('/api/send', function(req, res) {
-    var player1 = req.param('player1');
-    var player2 = req.param('player2');
-    var text = req.param('text');
-    var date = req.param('date');
-  
-                  convos.insert({player1:player1,player2:player2, text: text,date:date});
-                  res.send("ok");
 })
 
 
