@@ -182,10 +182,7 @@ function removeByValue(arr, val) {
 // send msg
 
  send = function(from,to,msg,date,callback){
-                  BasicDBObject conversation = new BasicDBObject();
-                  conversation.put("to":to);
-                   conversation.put("text":msg);
-                    conversation.put("date":date);
+          
                  // convos.insert({player1:from,player2:to,text:msg,date:date});
                   
         users.find({"username": to}).toArray(function (err, items) {
