@@ -157,13 +157,13 @@ app.get('/api/online-users', function(req, res) {
             messagedUsers = [];
              var player1 = req.param('player1');
 
-        convos.find({"player1":player1}}).sort({date: 1}).toArray(function (err, items) {
+        convos.find({"player1":player1}).sort({date: 1}).toArray(function (err, items) {
             res.contentType('application/json');
             for(var i = 0;i<items.length;i++)
             {
                 messagedUsers.push({"usr":items[i]["player2"]})
             }
-            res.send(JSON.stringify(allMessages));
+            res.send(JSON.stringify(messagedUsers));
         });
     });
         
