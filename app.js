@@ -162,7 +162,7 @@ app.get('/api/online-users', function(req, res) {
             res.contentType('application/json');
             for(var i = 0;i<items.length;i++)
             {
-                messagedUsers.push({"usr":items[i]["player2"]})
+                messagedUsers.push({"usr":items[i]["player2"]},{"msg":items[i]})
             }
             res.send(JSON.stringify(unique(messagedUsers)));
         });
