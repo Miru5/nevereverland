@@ -128,31 +128,15 @@ app.post('/api/set-class', function(req, res) {
         res.send("ok");
 })
 
-function ArrNoDupe(a) {
-    var temp = {};
-    for (var i = 0; i < a.length; i++)
-        temp[a[i]] = true;
-    var r = [];
-    for (var k in temp)
-        r.push(k);
-    return r;
-}
-
-Array.prototype.contains = function(v) {
-    for(var i = 0; i < this.length; i++) {
-        if(this[i] === v) return true;
-    }
-    return false;
-};
-
-Array.prototype.unique = function() {
-    var arr = [];
-    for(var i = 0; i < this.length; i++) {
-        if(!arr.contains(this[i])) {
-            arr.push(this[i]);
+function unique(arr) {
+    var hash = {}, result = [];
+    for ( var i = 0, l = arr.length; i < l; ++i ) {
+        if ( !hash.hasOwnProperty(arr[i]) ) { //it works with objects! in FF, at least
+            hash[ arr[i] ] = true;
+            result.push(arr[i]);
         }
     }
-    return arr; 
+    return result;
 }
 
 // get list of online users
@@ -180,8 +164,7 @@ app.get('/api/online-users', function(req, res) {
             {
                 messagedUsers.push({"usr":items[i]["player2"]})
             }
-            var uniques = messagedUsers.unique();
-            res.send(JSON.stringify(uniques));
+            res.send(JSON.stringify(unique(messagedUsers)));
         });
     });
         
