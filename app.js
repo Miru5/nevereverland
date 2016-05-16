@@ -229,6 +229,34 @@ app.post('/api/sendgcm',function(req,res) {
 })
 
 
+ save = function(from,to,msg,date,callback){
+    users.update({"username": to},
+        {$push: {
+            "conversations":{ "with": from,"message":msg,"date":date,"type":"r" }
+        }
+        }
+    )
+     callback({'response': "Success"});
+     
+}
+
+
+app.post('/api/save-received',function(req,res) {
+    var from = req.param('player1');
+    var to = req.param('player2');
+    var msg = req.param('text');
+    var date = req.param('date');
+
+    save(from,to,msg,date,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
+
+
+
+
+
 app.get('/api/convos', function(req, res) {
         var player1 = req.param('player1');
         var player2 = req.param('player2');
