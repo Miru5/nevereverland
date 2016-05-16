@@ -182,9 +182,13 @@ function removeByValue(arr, val) {
 // send msg
 
  send = function(from,to,msg,date,callback){
-          
-                 // convos.insert({player1:from,player2:to,text:msg,date:date});
-                  
+       
+                  users.update({"username": from},
+        {$push: {
+            "conversations":{ "with": to,"message":msg,"date":date,"type":"s" }
+        }
+        }
+    )
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
                 if (count > 0) {
