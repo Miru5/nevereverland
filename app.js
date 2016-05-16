@@ -258,17 +258,24 @@ app.post('/api/save-received',function(req,res) {
 
 
 app.get('/api/convos', function(req, res) {
-        var player1 = req.param('player1');
         var player2 = req.param('player2');
         allMessages = [];
-     
-        convos.find({$or:[{"player1":player1}, {"player1":player2}]}).sort({date: 1}).toArray(function (err, items) {
-            res.contentType('application/json');
-            for(var i = 0;i<items.length;i++)
-            {
-                allMessages.push({"msg":items[i]})
-            }
-            res.send(JSON.stringify(allMessages));
+            users.aggregate([
+                {'$unwind': '$conversations'},
+                {'$match':
+                {"conversations.with":
+                    player2 }
+        },
+        {'$group':
+        {
+            '_id': '$_id',
+            'conversations':
+            {'$push': '$conversations'}
+        }
+        }
+    ]).toArray(function (err, items) {
+     console.log(items);
+        res.send(JSON.stringify(items));
         });
 });
 
