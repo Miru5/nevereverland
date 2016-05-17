@@ -253,34 +253,27 @@ app.post('/api/save-received',function(req,res) {
 
 //get last conversation foreach friend
 
- app.get('/api/all-messages', function (req, res) {
-        MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx", function(err, database) {
-        db = database;
-        users = db.collection("Users");
+  app.get('/api/convos2', function (req, res) {
         var player1 = req.param('player1');
-
-            users.aggregate([
+        
+              users.aggregate([
                 {'$unwind': '$conversations'},
-                {'$match':
+                {'$match':{
+                $and:[
                 {"conversations.with":
+                {$ne: player1} },
+                {username:player1}
+                ]}},
 
-                {$ne: player1} }
-                },
-                { "$sort": { "_id": 1 } },
+                { "$sort": {"conversations.with":1, "conversations.date": 1 } },
                 {'$group':
                 {
-                    '_id': '$_id',
-                    "result": {"$last":"$conversations"},
-                    'conversations':
-                    {'$push': '$conversations'}
+                    '_id': '$conversations.with',
+                   "lastMessage": { "$last": "$conversations" }
                 }
-                }])
-            .toArray(function (err, items) {
-                console.log(items);
-                res.send(JSON.stringify(items));
-            });
-
-    });
+                }]).toArray(function (err, items) {
+          res.send(items);
+    })
 });
 
 
