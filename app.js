@@ -226,7 +226,7 @@ app.post('/api/sendgcm',function(req,res) {
 })
 
 
- save = function(from,to,msg,date,callback){
+ save = function(from,to,msg,callback){
     users.update({"username": to},
         {$push: {
             "conversations":{ "with": from,"message":msg,"date":"a","type":"r" }
