@@ -185,7 +185,7 @@ function removeByValue(arr, val) {
        
                   users.update({"username": from},
         {$push: {
-            "conversations":{ "with": to,"message":msg,"date":"b","type":"s" }
+            "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s" }
         }
         }
     )
