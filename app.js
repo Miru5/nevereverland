@@ -181,11 +181,11 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function(from,to,msg,callback){
+ send = function(from,to,msg,date,callback){
        
                   users.update({"username": from},
         {$push: {
-            "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s" }
+            "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s","realDate":date }
         }
         }
     )
@@ -218,18 +218,19 @@ app.post('/api/sendgcm',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
     var msg = req.param('text');
+    var date = req.param('date');
     
-    send(from,to,msg,function (found) {
+    send(from,to,msg,date,function (found) {
         console.log(found);
         res.json(found);
     });
 })
 
 
- save = function(from,to,msg,callback){
+ save = function(from,to,msg,date,callback){
     users.update({"username": to},
         {$push: {
-            "conversations":{ "with": from,"message":msg,"date":new Date(),"type":"r" }
+            "conversations":{ "with": from,"message":msg,"date":new Date(),"type":"r",realDate:date }
         }
         }
     )
@@ -242,8 +243,9 @@ app.post('/api/save-received',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
     var msg = req.param('text');
+    var date = req.param('date');
 
-    save(from,to,msg,function (found) {
+    save(from,to,msg,date,function (found) {
         console.log(found);
         res.json(found);
     });
