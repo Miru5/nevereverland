@@ -181,7 +181,7 @@ function removeByValue(arr, val) {
 
 // send msg
 
- send = function(from,to,msg,date,callback){
+ send = function(from,to,msg,callback){
        
                   users.update({"username": from},
         {$push: {
@@ -202,9 +202,7 @@ function removeByValue(arr, val) {
                     });
                     console.log(message);
                     gcmObject.send(message, function (err, response) {
-                        if(err==null){
                             callback({'response': "Success"});
-                        }
                     });
                 }
                 else {
