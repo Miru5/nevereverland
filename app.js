@@ -253,7 +253,7 @@ app.post('/api/save-received',function(req,res) {
 
 //get last conversation foreach friend
 
-  app.get('/api/convos2', function (req, res) {
+  app.get('/api/last-convos', function (req, res) {
         var player1 = req.param('player1');
         
               users.aggregate([
@@ -272,7 +272,7 @@ app.post('/api/save-received',function(req,res) {
                    "lastMessage": { "$last": "$conversations" }
                 }
                 }]).toArray(function (err, items) {
-          res.send(items);
+        res.send(JSON.stringify(items));
     })
 });
 
