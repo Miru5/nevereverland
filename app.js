@@ -185,7 +185,7 @@ function removeByValue(arr, val) {
        
                   users.update({"username": from},
         {$push: {
-            "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s" }
+            "conversations":{ "with": to,"message":msg,"date":Date(),"type":"s" }
         }
         }
     )
@@ -229,7 +229,7 @@ app.post('/api/sendgcm',function(req,res) {
  save = function(from,to,msg,callback){
     users.update({"username": to},
         {$push: {
-            "conversations":{ "with": from,"message":msg,"date":new Date(),"type":"r" }
+            "conversations":{ "with": from,"message":msg,"date":Date,"type":"r" }
         }
         }
     )
