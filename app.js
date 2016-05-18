@@ -206,7 +206,7 @@ function removeByValue(arr, val) {
                     });
                 }
                 else {
-                    res.send("error");
+                    callback({'response': "error"});
                 }
 
             });
