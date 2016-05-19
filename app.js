@@ -215,7 +215,7 @@ sendRequest = function(from,to,ans,callback){
        var charclass;
        
        if(ans=="yes"){
-           answered = "accepted";
+           answer = "accepted";
             users.find({"username": to}).toArray(function (err, items) {
                  username = items[0]["username"];
                   lvl = items[0]["lvl"];
@@ -238,7 +238,7 @@ sendRequest = function(from,to,ans,callback){
             "notifications":{ "from": from,"message":from +" has accepted your request.","type":"a", "date":new Date()}}})
         }
     else{
-          answered = "denied";
+          answer = "denied";
                 users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has denied your request.","type":"a", "date":new Date()}}})
