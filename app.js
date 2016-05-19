@@ -224,6 +224,15 @@ sendRequest = function(from,to,ans,callback){
            {$push: {
         "friends":{ "username": from,"lvl":lvl,"charclass":charclass}}})
             });
+            
+             users.find({"username": to}).toArray(function (err, items) {
+                 username = items[0]["username"];
+                  lvl = items[0]["lvl"];
+                  charclass = items[0]["charclass"];
+        users.update({"username": from},
+           {$push: {
+        "friends":{ "username": to,"lvl":lvl,"charclass":charclass}}})
+            });
                   users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your request.","type":"a", "date":new Date()}}})
