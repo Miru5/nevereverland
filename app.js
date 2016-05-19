@@ -147,7 +147,7 @@ app.get('/api/online-users', function(req, res) {
               res.contentType('application/json');
               for(var i = 0;i<items.length;i++)
               {
-               activeUsers.push({"usr":items[i]["username"]})
+               activeUsers.push({items[i]["username"],items[i]["charclass"],items[i]["lvl"]})
               }
               res.send(JSON.stringify(activeUsers));
                 });
