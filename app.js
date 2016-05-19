@@ -223,9 +223,9 @@ sendRequest = function(from,to,ans,callback){
             });
                   users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has accepted your request.","type":"a", "date":new Date()}}})
-        }, {$push: {
-            "friends":{ "username": from,"lvl":lvl,"charclass":charclass}}})
+            "notifications":{ "from": from,"message":from +" has accepted your request.","type":"a", "date":new Date()}}}
+        ,{$push: {
+        "friends":{ "username": from,"lvl":lvl,"charclass":charclass}}})
         }
     else{
           answered = "denied";
