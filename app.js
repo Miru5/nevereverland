@@ -140,18 +140,26 @@ function unique(arr) {
 }
 
 // get list of online users
-app.get('/api/online-users', function(req, res) {
-
-            activeUsers = [];
-            users.find({"status":"online"}).toArray(function (err, items) {
-              res.contentType('application/json');
-              for(var i = 0;i<items.length;i++)
-              {
-               activeUsers.push({items[i]["username"],items[i]["charclass"],items[i]["lvl"]})
-              }
-              res.send(JSON.stringify(activeUsers));
-                });
+app.get('/api/onlineusers', function(req, res) {
+        res.contentType('application/json');
+        users.aggregate([
+            {
+                '$match': {
+                    "status": "online"
+                }
+            },
+            {
+            '$group': {
+            '_id' : '$_id',
+                'online':
+                {'$push': {"username" : '$username','lvl':'$lvl','charclass':'$charclass'}}
+             }
+            }
+        ]).toArray(function (err, items) {
+            console.log(items);
+            res.send(JSON.stringify(items));
         });
+});
         
         //get list of conversations by user
   app.get('/api/messages', function(req, res) {
