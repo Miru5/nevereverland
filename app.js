@@ -178,7 +178,8 @@ app.get('/api/onlineusers', function(req, res) {
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has sent you a friend request."
+                            key2: from +" has sent you a friend request.",
+                            type: "f"
                         }
                     });
                     console.log(message);
