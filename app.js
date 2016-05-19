@@ -209,18 +209,29 @@ app.post('/api/send-friend-request',function(req,res) {
 
 //send answer
 sendRequest = function(from,to,ans,callback){
-       var answered = "accepted"
+       var answeredto = "accepted"
+       var username;
+       var lvl;
+       var charclass;
+       
        if(ans=="yes"){
            answered = "accepted";
+            users.find({"username": to}).toArray(function (err, items) {
+                 username = items[0]["username"];
+                  lvl = items[0]["lvl"];
+                  charclass = items[0]["charclass"];
+            });
                   users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has accepted your friend request.","type":"a", "date":new Date()}}})
+            "notifications":{ "from": from,"message":from +" has accepted your request.","type":"a", "date":new Date()}}})
+        }, {$push: {
+            "friends":{ "username": from,"lvl":lvl,"charclass":charclass}}})
         }
     else{
           answered = "denied";
                 users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has sent you a friend request.","type":"a", "date":new Date()}}})
+            "notifications":{ "from": from,"message":from +" has denied your request.","type":"a", "date":new Date()}}})
     }
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
@@ -230,7 +241,7 @@ sendRequest = function(from,to,ans,callback){
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has "+ answered + " your friend request.",
+                            key2: from +" has "+ answeredto + " your friend request.",
                             type: "a"
                         }
                     });
