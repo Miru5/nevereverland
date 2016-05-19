@@ -209,7 +209,7 @@ app.post('/api/send-friend-request',function(req,res) {
 
 //send answer
 sendRequest = function(from,to,ans,callback){
-       var answeredto = "accepted"
+       var answer = "accepted"
        var username;
        var lvl;
        var charclass;
@@ -251,8 +251,9 @@ sendRequest = function(from,to,ans,callback){
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has "+ answeredto + " your request.",
-                            type: "a"
+                            key2: from +" has "+ answer + " your request.",
+                            type: "a",
+                            answer:answer
                         }
                     });
                     console.log(message);
