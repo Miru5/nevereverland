@@ -209,13 +209,15 @@ app.post('/api/send-friend-request',function(req,res) {
 
 //send answer
 sendRequest = function(from,to,ans,callback){
-       
+       var answered = "accepted"
        if(ans=="yes"){
+           answered = "accepted";
                   users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your friend request.","type":"a", "date":new Date()}}})
         }
     else{
+          answered = "denied";
                 users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has sent you a friend request.","type":"a", "date":new Date()}}})
@@ -228,8 +230,8 @@ sendRequest = function(from,to,ans,callback){
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has sent you a friend request.",
-                            type: "f"
+                            key2: from +" has "+ answered + " your friend request.",
+                            type: "a"
                         }
                     });
                     console.log(message);
