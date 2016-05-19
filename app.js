@@ -239,7 +239,7 @@ sendRequest = function(from,to,ans,callback){
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has "+ answeredto + " your friend request.",
+                            key2: from +" has "+ answeredto + " your request.",
                             type: "a"
                         }
                     });
