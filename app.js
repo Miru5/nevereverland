@@ -205,6 +205,56 @@ app.post('/api/send-friend-request',function(req,res) {
         res.json(found);
     });
 })
+
+
+//send answer
+sendRequest = function(from,to,ans,callback){
+       
+       if(ans=="yes"){
+                  users.update({"username": to},
+        {$push: {
+            "notifications":{ "from": from,"message":from +" has accepted your friend request.","type":"a", "date":new Date()}}})
+        }
+    else{
+                users.update({"username": to},
+        {$push: {
+            "notifications":{ "from": from,"message":from +" has sent you a friend request.","type":"a", "date":new Date()}}})
+    }
+        users.find({"username": to}).toArray(function (err, items) {
+            users.count({username: to}, function (err, count) {
+                if (count > 0) {
+                    var r_id = items[0]["reg_id"]
+                    var message = new gcm.Message({
+                        registration_ids: [r_id],
+                        data: {
+                            key1: from,
+                            key2: from +" has sent you a friend request.",
+                            type: "f"
+                        }
+                    });
+                    console.log(message);
+                    gcmObject.send(message, function (err, response) {
+                            callback({'response': "Success"});
+                    });
+                }
+                else {
+                    callback({'response': "error"});
+                }
+
+            });
+
+        });
+}
+
+app.post('/api/send-answer',function(req,res) {
+    var from = req.param('player1');
+    var to = req.param('player2');
+    var ans = req.param('answer');
+    sendRequest(from,to,ans,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
         
         //get list of conversations by user
   app.get('/api/messages', function(req, res) {
