@@ -161,6 +161,31 @@ app.get('/api/onlineusers', function(req, res) {
         });
 });
 
+//get list of friends for user
+
+app.get('/api/friends', function(req, res) {
+
+    var player1 = req.param('player1');
+    res.contentType('application/json');
+    users.aggregate([
+        {
+            '$match': {
+                "username": player1
+            }
+        },
+        {
+            '$group': {
+                '_id' : '$_id',
+                'friends':
+                {'$push': '$friends'}
+                }
+        }
+    ]).toArray(function (err, items) {
+        console.log(items);
+        res.send(JSON.stringify(items));
+    });
+});
+
 //send friend request
  sendRequest = function(from,to,callback){
        
