@@ -166,6 +166,7 @@ app.get('/api/onlineusers', function(req, res) {
 app.get('/api/friends', function(req, res) {
 
     var player1 = req.param('player1');
+  //  var result = db.users.find({friends: {$elemMatch: {status:'online'}}})
     res.contentType('application/json');
     users.aggregate([
         {
@@ -173,6 +174,7 @@ app.get('/api/friends', function(req, res) {
                 "username": player1
             }
         },
+        {'$unwind': '$friends'},
         {
             '$group': {
                 '_id' : '$_id',
