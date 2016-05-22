@@ -469,7 +469,7 @@ app.get('/api/convos', function(req, res) {
 });
 
 
-
+//logout
 app.post('/api/set-offline', function(req, res) {
     var id;
     var idx = req.param('id');
