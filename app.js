@@ -166,7 +166,7 @@ app.get('/api/onlineusers', function(req, res) {
             '$group': {
             '_id' : '$_id',
                 'online':
-                {'$push': {"username" : '$username','lvl':'$lvl','charclass':'$charclass','status':'$status'}}
+                {'$push': {"username" : '$username','lvl':'$lvl','charclass':'$charclass'}}
              }
             }
         ]).toArray(function (err, items) {
