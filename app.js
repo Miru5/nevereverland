@@ -109,13 +109,27 @@ app.post('/api/setID', function(req, res) {
         res.send("ok");
 })
 
+// set status
+app.post('/api/set-online', function(req, res) {
+    var id;
+    var idx = req.param('id');
+    var player2 = req.param('player2');
+    users.update({'_id': new ObjectId(idx)}, {$set: {status: "online"}});
+    users.find({"username": {$ne: player2}}).toArray(function (err, items) {
 
-app.post('/api/status', function(req, res) {
-    var id = req.param('id');
-
-          users.update({'_id' : new ObjectId(id)}, {$set: {status:"online"}});
+        var x = 0;
+        while (x < items.length) {
+            id = items[x]["_id"];
+            x++;
+            console.log(id);
+            users.update(
+                {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": player2}}},
+                {$set: { "friends.$.status" : "online" } }
+            )
+        }
         res.send("ok");
-})
+    });
+});
 
 
 //set class
@@ -456,11 +470,26 @@ app.get('/api/convos', function(req, res) {
 
 
 
-app.post('/api/logout', function(req, res) {
-                var id = req.param('id');
+app.post('/api/set-offline', function(req, res) {
+    var id;
+    var idx = req.param('id');
+    var player2 = req.param('player2');
+    users.update({'_id': new ObjectId(idx)}, {$set: {status: "offline"}});
+    users.find({"username": {$ne: player2}}).toArray(function (err, items) {
 
-                   users.update({'_id' : new ObjectId(id)}, {$set: {status:"offline"}});
-})
+        var x = 0;
+        while (x < items.length) {
+            id = items[x]["_id"];
+            x++;
+            console.log(id);
+            users.update(
+                {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": player2}}},
+                {$set: { "friends.$.status" : "offline" } }
+            )
+        }
+        res.send("ok");
+    });
+});
 
 
 // bind the app to listen for connections on a specified port
