@@ -150,19 +150,25 @@ app.post('/api/setxp', function(req, res) {
 })
 
 app.get('/api/properties', function(req, res) {
-    var name = req.param('char');
+
+        var player = req.param("char");
         res.contentType('application/json');
         users.aggregate([
             {
                 '$match': {
-                    "username": name
+                    "username": player
                 }
             },
             {
             '$group': {
             '_id' : '$_id',
-                "character" :
-                {'$push': {"xp" : 'xp','lvl':'$lvl','charclass':'$charclass'}}
+                'char':
+                {'$push':
+                 {
+                    'lvl':'$lvl',
+                     'xp': '$xp'
+                 }
+                }
              }
             }
         ]).toArray(function (err, items) {
