@@ -149,6 +149,28 @@ app.post('/api/setxp', function(req, res) {
         res.send("ok");
 })
 
+app.get('/api/properties', function(req, res) {
+    var name = req.param('char');
+        res.contentType('application/json');
+        users.aggregate([
+            {
+                '$match': {
+                    "username": name
+                }
+            },
+            {
+            '$group': {
+            '_id' : '$_id',
+                name :
+                {'$push': {"xp" : 'xp','lvl':'$lvl','charclass':'$charclass'}}
+             }
+            }
+        ]).toArray(function (err, items) {
+            console.log(items);
+            res.send(JSON.stringify(items));
+        });
+});
+
 function unique(arr) {
     var hash = {}, result = [];
     for ( var i = 0, l = arr.length; i < l; ++i ) {
