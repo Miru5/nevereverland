@@ -161,7 +161,7 @@ app.get('/api/properties', function(req, res) {
             {
             '$group': {
             '_id' : '$_id',
-                name :
+                "character" :
                 {'$push': {"xp" : 'xp','lvl':'$lvl','charclass':'$charclass'}}
              }
             }
