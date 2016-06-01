@@ -103,8 +103,7 @@ app.post('/api/add_user', function(req, res) {
 app.post('/api/setID', function(req, res) {
     var id = req.param('id');
     var regID = req.param('regID');
-
-        doc = users.findOne({_id:id})
+    
         users.update({'_id' : new ObjectId(id)}, {$set: {reg_id:regID}});
         res.send("ok");
 })
@@ -139,6 +138,14 @@ app.post('/api/set-class', function(req, res) {
 
         doc = users.findOne({_id:id})
         users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1}});
+        res.send("ok");
+})
+
+
+app.post('/api/setxp', function(req, res) {
+    var id = req.param('id');
+
+        users.update({'_id' : new ObjectId(id)}, { $inc: { xp:10}});
         res.send("ok");
 })
 
