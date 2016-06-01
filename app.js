@@ -156,6 +156,14 @@ app.post('/api/lvlup', function(req, res) {
         res.send("ok");
 })
 
+//reset xp
+app.post('/api/resetxp', function(req, res) {
+    var id = req.param('id');
+
+        users.update({'_id' : new ObjectId(id)}, { $set: { xp:10}});
+        res.send("ok");
+})
+
 //get properties
 app.get('/api/properties', function(req, res) {
 
