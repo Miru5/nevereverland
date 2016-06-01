@@ -46,7 +46,7 @@ app.post('/api/add_user', function(req, res) {
     var salt = bcrypt.genSaltSync(10);
     var hash = "hush";
     
-         users.find({"email": email}).toArray(function (err, items) {
+        users.find({"email": email}).toArray(function (err, items) {
         users.find({"username": username}).toArray(function (err, items) {
             users.count({username: username}, function (err, count){
                 if(count>0){
@@ -130,7 +130,6 @@ app.post('/api/set-online', function(req, res) {
     });
 });
 
-
 //set class
 app.post('/api/set-class', function(req, res) {
     var id = req.param('id');
@@ -141,7 +140,7 @@ app.post('/api/set-class', function(req, res) {
         res.send("ok");
 })
 
-
+//set xp
 app.post('/api/setxp', function(req, res) {
     var id = req.param('id');
 
@@ -149,6 +148,15 @@ app.post('/api/setxp', function(req, res) {
         res.send("ok");
 })
 
+//set lvl
+app.post('/api/lvlup', function(req, res) {
+    var id = req.param('id');
+
+        users.update({'_id' : new ObjectId(id)}, { $inc: { lvl:1}});
+        res.send("ok");
+})
+
+//get properties
 app.get('/api/properties', function(req, res) {
 
         var player = req.param("char");
@@ -176,6 +184,7 @@ app.get('/api/properties', function(req, res) {
             res.send(JSON.stringify(items));
         });
 });
+
 
 function unique(arr) {
     var hash = {}, result = [];
@@ -211,7 +220,6 @@ app.get('/api/onlineusers', function(req, res) {
 });
 
 //get list of friends for user
-
 app.get('/api/friends', function(req, res) {
 
     var player1 = req.param('player1');
@@ -281,7 +289,6 @@ app.post('/api/send-friend-request',function(req,res) {
         res.json(found);
     });
 })
-
 
 //send answer
 sendRequest = function(from,to,ans,callback){
@@ -356,7 +363,7 @@ app.post('/api/send-answer',function(req,res) {
     });
 })
         
-        //get list of conversations by user
+//get list of conversations by user --begone
   app.get('/api/messages', function(req, res) {
     messagedUsers = [];
     var player1 = req.param('player1');
@@ -372,7 +379,6 @@ app.post('/api/send-answer',function(req,res) {
     });
 });
         
-
 function removeByValue(arr, val) {
     for(var i=0; i<arr.length; i++) {
         if(arr[i] == val) {
@@ -383,7 +389,6 @@ function removeByValue(arr, val) {
 }
 
 // send msg
-
  send = function(from,to,msg,date,callback){
        
                   users.update({"username": from},
@@ -429,7 +434,6 @@ app.post('/api/sendgcm',function(req,res) {
     });
 })
 
-
  save = function(from,to,msg,date,callback){
     users.update({"username": to},
         {$push: {
@@ -440,7 +444,6 @@ app.post('/api/sendgcm',function(req,res) {
      callback({'response': "Success"});
      
 }
-
 
 app.post('/api/save-received',function(req,res) {
     var from = req.param('player1');
@@ -455,7 +458,6 @@ app.post('/api/save-received',function(req,res) {
 })
 
 //get last conversation foreach friend
-
   app.get('/api/last-convos', function (req, res) {
         var player1 = req.param('player1');
         
@@ -478,7 +480,6 @@ app.post('/api/save-received',function(req,res) {
         res.send(JSON.stringify(items));
     })
 });
-
 
 // get conversations by user
 app.get('/api/convos', function(req, res) {
@@ -503,7 +504,6 @@ app.get('/api/convos', function(req, res) {
         });
 });
 
-
 //logout
 app.post('/api/set-offline', function(req, res) {
     var id;
@@ -526,12 +526,9 @@ app.post('/api/set-offline', function(req, res) {
     });
 });
 
-
-// bind the app to listen for connections on a specified port
 var port = process.env.PORT || 3000;
 app.listen(port);
 
-// Render some console log output
 console.log("Listening on port " + port);
 
 
