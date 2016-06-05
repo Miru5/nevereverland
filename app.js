@@ -182,7 +182,8 @@ app.get('/api/properties', function(req, res) {
                 {'$push':
                  {
                     'lvl':'$lvl',
-                     'xp': '$xp'
+                     'xp': '$xp',
+                     'dp': '$dp'
                  }
                 }
              }
