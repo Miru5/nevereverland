@@ -55,7 +55,7 @@ app.post('/api/add_user', function(req, res) {
                 else {
                     hash = bcrypt.hashSync(password, salt);
                     password = hash;
-                  users.insert({reg_id:"none",username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline"});
+                  users.insert({reg_id:"none",username: username, email: email, password: password, charclass:"none", firstLogin:0,xp:10,lvl:1,status:"offline","dp":"https://s3.amazonaws.com/nevereverland/default.jpg"});
                   res.send("ok");
                     }
                 });
@@ -329,6 +329,7 @@ sendRequest = function(from,to,ans,callback){
        var username;
        var lvl;
        var charclass;
+       var dp;
        
        if(ans=="yes"){
            answer = "accepted";
@@ -345,9 +346,11 @@ sendRequest = function(from,to,ans,callback){
                  username = items[0]["username"];
                   lvl = items[0]["lvl"];
                   charclass = items[0]["charclass"];
+                  dp = items[0]["dp"];
+                  
         users.update({"username": from},
            {$push: {
-        "friends":{ "username": to,"lvl":lvl,"charclass":charclass}}})
+        "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp}}})
             });
                   users.update({"username": to},
         {$push: {
