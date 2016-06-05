@@ -227,6 +227,17 @@ app.get('/api/onlineusers', function(req, res) {
         });
 });
 
+//set display picture
+app.post('/api/set_picture', function(req, res) {
+   var id = req.body.id;
+   var link = req.body.link;
+      users.find({_id:new ObjectId(id)}).toArray(function (err, items) {
+            users.update({'_id' : new ObjectId(id)}, { $set: { dp:link}});
+        res.send("ok");
+        });
+       
+})
+
 //get list of friends for user
 app.get('/api/friends', function(req, res) {
 
