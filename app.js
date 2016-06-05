@@ -232,8 +232,21 @@ app.get('/api/onlineusers', function(req, res) {
 app.post('/api/set_picture', function(req, res) {
    var id = req.body.id;
    var link = req.body.link;
-      users.find({_id:new ObjectId(id)}).toArray(function (err, items) {
-            users.update({'_id' : new ObjectId(id)}, { $set: { dp:link}});
+    var xid;
+    var player = req.body.player;
+    users.update({'_id' : new ObjectId(id)}, { $set: { dp:link}});
+    users.find({"username": {$ne: player}}).toArray(function (err, items) {
+
+        var x = 0;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
+                {$set: { "friends.$.dp" : link } }
+            )
+        }
         res.send("ok");
         });
        
