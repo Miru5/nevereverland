@@ -495,7 +495,7 @@ app.post('/api/send-msg-chat',function(req,res) {
                     });
                     console.log(message);
                     gcmObject.send(message, function (err, response) {
-                            callback({'response': "Success"});
+                            callback({'response': "Success:" JSON.stringify(message)});
                     });
                 }
                 else {
