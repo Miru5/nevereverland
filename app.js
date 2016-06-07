@@ -172,7 +172,7 @@ app.post('/api/resetxp', function(req, res) {
 //get properties
 app.get('/api/properties', function(req, res) {
 
-        var player = req.param("char");s
+        var player = req.param("char");
         res.contentType('application/json');
         users.aggregate([
             {
