@@ -429,7 +429,7 @@ function removeByValue(arr, val) {
 
 
 //send main chat msg
-send = function(from,msg,callback){
+sendMain = function(from,msg,callback){
        
     //               users.update({"username": from},
     //     {$push: {
@@ -455,7 +455,7 @@ app.post('/api/send-msg-chat',function(req,res) {
     var from = req.param('player1');
     var msg = req.param('text');
     
-    send(from,msg,function (found) {
+    sendMain(from,msg,function (found) {
         console.log(found);
         res.json(found);
     });
