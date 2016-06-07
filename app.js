@@ -438,7 +438,7 @@ sendMain = function(from,msg,callback){
     //     }
     // )
                     var message = new gcm.Message({
-                        registration_ids: activeUsers,
+                        registration_ids: [activeUsers],
                         data: {
                             key1: from,
                             key2: msg
