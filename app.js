@@ -437,8 +437,26 @@ sendMain = function(from,msg,callback){
     //     }
     //     }
     // )
+    
+    users.aggregate([
+            {
+                '$match': {
+                    "status": "online"
+                }
+            }
+        ]).toArray(function (err, items) {
+            for(var i=0;i<items.length;i++){
+                if(items[i]["username"]!=from){
+                activeUsers.push(items[i]["reg_id"])
+                }
+            }
+        });
+    users.find({"username": { $in: activeUsers } }).toArray(function (err, items) {
+        for (var i = 0; i < items.length; i++) {
+        activeNow.push(items[i])
+    }
                     var message = new gcm.Message({
-                        registration_ids: [activeUsers],
+                        registration_ids: [activeNow],
                         data: {
                             key1: from,
                             key2: msg
