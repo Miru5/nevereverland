@@ -446,7 +446,7 @@ sendMain = function(from,msg,callback){
                     });
                     console.log(message);
                     gcmObject.send(message, function (err, response) {
-                            callback({'response': "Success" activeUsers});
+                            callback({'response': "Success" message});
                     });
               
 }
