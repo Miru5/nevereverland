@@ -432,51 +432,39 @@ function removeByValue(arr, val) {
 
 //send main chat msg
 sendMain = function(from,msg,callback){
-       
-    //               users.update({"username": from},
-    //     {$push: {
-    //         "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s","realDate":date }
-    //     }
-    //     }
-    // )
-    
+    activeUsers = [];
     users.aggregate([
-            {
-                '$match': {
-                    "status": "online"
-                }
+        {
+            '$match': {
+                "status": "online"
             }
-        ]).toArray(function (err, items) {
-            for(var i=0;i<items.length;i++){
-                if(items[i]["username"]!=from){
+        }
+    ]).toArray(function (err, items) {
+        for(var i=0;i<items.length;i++){
+            if(items[i]["username"]!=from){
                 activeUsers.push(items[i]["reg_id"])
-                }
+            }
+        }
+    });
+
+        var message = new gcm.Message({
+            registration_ids: [activeUsers],
+            data: {
+                key1: from,
+                key2: msg
             }
         });
-    users.find({"username": { $in: activeUsers } }).toArray(function (err, items) {
-        for (var i = 0; i < items.length; i++) {
-        activeNow.push(items[i])
-    }
-                    var message = new gcm.Message({
-                        registration_ids: [activeNow],
-                        data: {
-                            key1: from,
-                            key2: msg
-                        }
-                    });
-                    console.log(message);
-                    gcmObject.send(message, function (err, response) {
-                            callback({'response': JSON.stringify(message)});
-                    });
-             
-})
+        console.log(message);
+        gcmObject.send(message, function (err, response) {
+            callback({'response': JSON.stringify(message)});
+        });
 }
 
 
 app.post('/api/send-msg-chat',function(req,res) {
     var from = req.param('player1');
     var msg = req.param('text');
-    
+
     sendMain(from,msg,function (found) {
         console.log(found);
         res.json(found);
