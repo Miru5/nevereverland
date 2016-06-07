@@ -123,8 +123,8 @@ app.post('/api/set-online', function(req, res) {
         while (x < items.length) {
             id = items[x]["_id"];
             console.log(id);
-            regid = items[x]["reg_id"];
-            activeUsers.push(regid);
+            // regid = items[x]["reg_id"];
+            // activeUsers.push(regid);
             x++;
             users.update(
                 {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": player2}}},
@@ -172,7 +172,7 @@ app.post('/api/resetxp', function(req, res) {
 //get properties
 app.get('/api/properties', function(req, res) {
 
-        var player = req.param("char");
+        var player = req.param("char");s
         res.contentType('application/json');
         users.aggregate([
             {
