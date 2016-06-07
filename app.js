@@ -451,7 +451,8 @@ sendMain = function(from,msg,callback){
             registration_ids: activeUsers,
             data: {
                 key1: from,
-                key2: msg
+                key2: msg,
+                type: "m"
             }
         });
         console.log(message);
