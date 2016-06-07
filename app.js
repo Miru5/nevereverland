@@ -468,8 +468,10 @@ sendMain = function(from,msg,callback){
                     gcmObject.send(message, function (err, response) {
                             callback({'response': JSON.stringify(message)});
                     });
-              
+             
+})
 }
+
 
 app.post('/api/send-msg-chat',function(req,res) {
     var from = req.param('player1');
