@@ -120,10 +120,10 @@ app.post('/api/set-online', function(req, res) {
         var x = 0;
         while (x < items.length) {
             id = items[x]["_id"];
-            x++;
             console.log(id);
             regid = items[x]["reg_id"];
             activeUsers.push(regid);
+            x++;
             users.update(
                 {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": player2}}},
                 {$set: { "friends.$.status" : "online" } }
