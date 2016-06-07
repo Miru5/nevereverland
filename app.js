@@ -20,6 +20,7 @@ var GCM = require('./gcm');
 
 var MongoClient = require("mongodb").MongoClient
 var activeUsers = [];
+var activeNow = [];
 var allMessages = [];
 var messagedUsers = [];
 var db;
@@ -36,6 +37,7 @@ MongoClient.connect("mongodb://miru:toor@ds013340.mlab.com:13340/heroku_tn8g3mwx
   users = db.collection("Users");
   convos = db.collection("Convos");
   activeUsers = [];
+  activeNow = [];
 });
 
 //add user
