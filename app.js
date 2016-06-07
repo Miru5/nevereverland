@@ -445,9 +445,7 @@ sendMain = function(from,msg,callback){
                 activeUsers.push(items[i]["reg_id"])
             }
         }
-    });
-
-        var message = new gcm.Message({
+         var message = new gcm.Message({
             registration_ids: activeUsers,
             data: {
                 key1: from,
@@ -459,6 +457,9 @@ sendMain = function(from,msg,callback){
         gcmObject.send(message, function (err, response) {
             callback({'response': JSON.stringify(message)});
         });
+    });
+
+       
 }
 
 
