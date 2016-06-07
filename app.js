@@ -112,6 +112,7 @@ app.post('/api/setID', function(req, res) {
 app.post('/api/set-online', function(req, res) {
     var id;
     var idx = req.param('id');
+    var regid;
     var player2 = req.param('player2');
     users.update({'_id': new ObjectId(idx)}, {$set: {status: "online"}});
     users.find({"username": {$ne: player2}}).toArray(function (err, items) {
@@ -121,6 +122,8 @@ app.post('/api/set-online', function(req, res) {
             id = items[x]["_id"];
             x++;
             console.log(id);
+            regid = items[x]["reg_id"];
+            activeUsers.push(regid);
             users.update(
                 {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": player2}}},
                 {$set: { "friends.$.status" : "online" } }
@@ -423,6 +426,41 @@ function removeByValue(arr, val) {
         }
     }
 }
+
+
+//send main chat msg
+send = function(from,msg,callback){
+       
+    //               users.update({"username": from},
+    //     {$push: {
+    //         "conversations":{ "with": to,"message":msg,"date":new Date(),"type":"s","realDate":date }
+    //     }
+    //     }
+    // )
+                    var message = new gcm.Message({
+                        registration_ids: activeUsers,
+                        data: {
+                            key1: from,
+                            key2: msg
+                        }
+                    });
+                    console.log(message);
+                    gcmObject.send(message, function (err, response) {
+                            callback({'response': "Success"});
+                    });
+              
+}
+
+app.post('/api/send-msg-chat',function(req,res) {
+    var from = req.param('player1');
+    var msg = req.param('text');
+    
+    send(from,msg,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
+// 
 
 // send msg
  send = function(from,to,msg,date,callback){
