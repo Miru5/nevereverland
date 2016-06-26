@@ -544,11 +544,11 @@ sendPartyAnswer = function(from,to,ans,callback){
 }
 
 //post answer to invite
-app.post('/api/send-answer',function(req,res) {
+app.post('/api/send-party-answer',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
     var ans = req.param('answer');
-    sendRequest(from,to,ans,function (found) {
+    sendPartyAnswer(from,to,ans,function (found) {
         console.log(found);
         res.json(found);
     });
