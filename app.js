@@ -486,7 +486,8 @@ sendPartyAnswer = function(from,to,ans,callback){
         "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"xp":xp}}})
             });
             
-             {$push: {
+             users.update({"username": to},
+        {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
         }
        
