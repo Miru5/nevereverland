@@ -472,29 +472,29 @@ sendPartyAnswer = function(from,to,ans,callback){
        
        if(ans=="yes"){
            answer = "accepted";
-            users.find({"username": from}).toArray(function (err, items) {
-                 username = items[0]["username"];
-                  lvl = items[0]["lvl"];
-                  charclass = items[0]["charclass"];
-                  status = items[0]["status"];
-                  xp = items[0]["xp"];
-                  dp = items[0]["dp"];
-        users.update({"username": to},
-           {$push: {
-        "party":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
-            });
+        //     users.find({"username": from}).toArray(function (err, items) {
+        //          username = items[0]["username"];
+        //           lvl = items[0]["lvl"];
+        //           charclass = items[0]["charclass"];
+        //           status = items[0]["status"];
+        //           xp = items[0]["xp"];
+        //           dp = items[0]["dp"];
+        // users.update({"username": to},
+        //   {$push: {
+        // "party":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
+        //     });
             
-             users.find({"username": to}).toArray(function (err, items) {
-                    username = items[0]["username"];
-                  lvl = items[0]["lvl"];
-                  charclass = items[0]["charclass"];
-                  status = items[0]["status"];
-                  dp = items[0]["dp"];
-                   xp = items[0]["xp"];
-        users.update({"username": from},
-           {$push: {
-        "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
-            });
+        //      users.find({"username": to}).toArray(function (err, items) {
+        //             username = items[0]["username"];
+        //           lvl = items[0]["lvl"];
+        //           charclass = items[0]["charclass"];
+        //           status = items[0]["status"];
+        //           dp = items[0]["dp"];
+        //           xp = items[0]["xp"];
+        // users.update({"username": from},
+        //   {$push: {
+        // "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
+        //     });
               users.find({"username": {$ne: to}}).toArray(function (err, items) {
         var x = 0;
         var xid;
