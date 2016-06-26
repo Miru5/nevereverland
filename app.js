@@ -340,7 +340,7 @@ sendFriendAnswer = function(from,to,ans,callback){
        
        if(ans=="yes"){
            answer = "accepted";
-            users.find({"username": to}).toArray(function (err, items) {
+            users.find({"username": from}).toArray(function (err, items) {
                  username = items[0]["username"];
                   lvl = items[0]["lvl"];
                   charclass = items[0]["charclass"];
@@ -352,7 +352,11 @@ sendFriendAnswer = function(from,to,ans,callback){
             });
             
              users.find({"username": to}).toArray(function (err, items) {
-                  
+                    username = items[0]["username"];
+                  lvl = items[0]["lvl"];
+                  charclass = items[0]["charclass"];
+                  status = items[0]["status"];
+                  dp = items[0]["dp"];
         users.update({"username": from},
            {$push: {
         "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status}}})
