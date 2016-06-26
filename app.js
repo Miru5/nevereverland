@@ -582,7 +582,7 @@ users.find({"username": {$ne: player}}).toArray(function (err, items) {
                 {$pullAll: { "friends.$.username" : player } }
             )
             
-        
+        }
             
     });
 }
