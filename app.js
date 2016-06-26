@@ -347,7 +347,7 @@ sendFriendAnswer = function(from,to,ans,callback){
                   status = items[0]["status"];
         users.update({"username": to},
            {$push: {
-        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"status":status}})
+        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"status":status}}})
             });
             
              users.find({"username": to}).toArray(function (err, items) {
