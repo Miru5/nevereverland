@@ -494,6 +494,20 @@ sendPartyAnswer = function(from,to,ans,callback){
         {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
         }
+        
+        users.find({"username": {$ne: from}}).toArray(function (err, items) {
+        var x = 0;
+        var xid;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": from}}},
+                {$set: { "friends.$.inparty" : "yes" } }
+            )
+        }
+        
     else{
           answer = "denied";
                 users.update({"username": to},
