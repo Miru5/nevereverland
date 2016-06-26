@@ -581,7 +581,7 @@ app.post('/api/send-party-answer',function(req,res) {
                 {'$match':{
                 $and:[
                 {"friends.inparty":
-                "{$ne: player1}" },
+                "yes" },
                 {username:"{$ne:player1}"}
                 ]}},
                 {'$group':
