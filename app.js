@@ -570,19 +570,29 @@ app.post('/api/send-party-answer',function(req,res) {
 
 //leave party
 leaveParty = function(player,callback){  
-users.find({"username": {$ne: player}}).toArray(function (err, items) {
+// users.find({"username": {$ne: player}}).toArray(function (err, items) {
         var x = 0;
         var xid;
-        while (x < items.length) {
-            xid = items[x]["_id"];
-            x++;
-            console.log(xid);
+        // remove from my object 1st
+        users.find({"username": {player}}).toArray(function (err, items) {
+        var x = 0;
+        var xid = items["_id"];
             users.update(
-                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
-                {$pullAll: { "party.$.username" : player } }
+                {'_id': new ObjectId(xid)},
+        {$set: { "party" : [] } }
             )
+        callback({'response': "Success"});
+        
+        // while (x < items.length) {
+        //     xid = items[x]["_id"];
+        //     x++;
+        //     console.log(xid);
+        //     users.update(
+        //         {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
+        //         {$pullAll: { "party.$.username" : player } }
+        //     )
             
-        }
+        // }
             
     });
 }
