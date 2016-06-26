@@ -533,7 +533,7 @@ sendPartyAnswer = function(from,to,ans,callback){
           answer = "denied";
                 users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has denied your invite.","type":"pa", "date":new Date()}}})
+            "notifications":{ "from": from,"message":from +" has denied your invite.","type":"p", "date":new Date()}}})
     }
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
@@ -544,7 +544,7 @@ sendPartyAnswer = function(from,to,ans,callback){
                         data: {
                             key1: from,
                             key2: from +" has "+ answer + " your invite.",
-                            type: "pa",
+                            type: "p",
                             answer:answer
                         }
                     });
@@ -572,6 +572,27 @@ app.post('/api/send-party-answer',function(req,res) {
         res.json(found);
     });
 })
+
+ app.get('/api/party', function (req, res) {
+        var player1 = req.param('player1');
+        
+              users.aggregate([
+                {'$unwind': '$friends'},
+                {'$match':{
+                $and:[
+                {"friends.inparty":
+                "{$ne: player1}" },
+                {username:"{$ne:player1}"}
+                ]}},
+                {'$group':
+                {
+                    '_id': '$friends.username',
+                   "party": { "$members": "$friends" }
+                }
+                }]).toArray(function (err, items) {
+        res.send(JSON.stringify(items));
+    })
+});
 
 //leave party
 leaveParty = function(player,callback){  
