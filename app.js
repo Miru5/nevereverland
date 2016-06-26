@@ -574,7 +574,7 @@ leaveParty = function(player,callback){
         var x = 0;
         var xid;
         // remove from my object 1st
-        users.find({"username": {player}}).toArray(function (err, items) {
+        users.find({"username":player}).toArray(function (err, items) {
         var x = 0;
         var xid = items["_id"];
             users.update(
