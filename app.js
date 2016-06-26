@@ -582,7 +582,7 @@ users.find({"username": {$ne: player}}).toArray(function (err, items) {
                 {$set: { "friends.$.inparty" : "no" } }
             )
             users.update(
-    {'_id': new ObjectId(xid))}, 
+    {'_id': new ObjectId(xid)}, 
     { $pull: { "party" : { username: player } } },
 false,
 true 
