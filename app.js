@@ -348,7 +348,7 @@ sendFriendAnswer = function(from,to,ans,callback){
                   dp = items[0]["dp"];
         users.update({"username": to},
            {$push: {
-        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status}}})
+        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no"}}})
             });
             
              users.find({"username": to}).toArray(function (err, items) {
@@ -359,7 +359,7 @@ sendFriendAnswer = function(from,to,ans,callback){
                   dp = items[0]["dp"];
         users.update({"username": from},
            {$push: {
-        "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status}}})
+        "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no"}}})
             });
                   users.update({"username": to},
         {$push: {
