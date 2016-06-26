@@ -544,7 +544,7 @@ sendPartyAnswer = function(from,to,ans,callback){
                         data: {
                             key1: from,
                             key2: from +" has "+ answer + " your invite.",
-                            type: "a",
+                            type: "pa",
                             answer:answer
                         }
                     });
