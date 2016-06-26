@@ -511,7 +511,7 @@ sendPartyAnswer = function(from,to,ans,callback){
     
                   users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
+            "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"pa", "date":new Date()}}})
             
              users.find({"username": {$ne: from}}).toArray(function (err, items) {
         var x = 0;
@@ -533,7 +533,7 @@ sendPartyAnswer = function(from,to,ans,callback){
           answer = "denied";
                 users.update({"username": to},
         {$push: {
-            "notifications":{ "from": from,"message":from +" has denied your invite.","type":"a", "date":new Date()}}})
+            "notifications":{ "from": from,"message":from +" has denied your invite.","type":"pa", "date":new Date()}}})
     }
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
