@@ -567,6 +567,38 @@ app.post('/api/send-party-answer',function(req,res) {
         res.json(found);
     });
 })
+
+//leave party
+leaveParty = function(player,callback){  
+users.find({"username": {$ne: player}}).toArray(function (err, items) {
+        var x = 0;
+        var xid;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
+                {$set: { "friends.$.inparty" : "no" } }
+            )
+            users.update(
+    {'_id': new ObjectId(xid))}, 
+    { $pull: { "party" : { username: player } } },
+false,
+true 
+);
+        }
+    });
+}
+
+//post leave party
+app.post('/api/leave-party',function(req,res) {
+    var player = req.param('player');
+    leaveParty(player,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
         
 
 //send main chat msg
