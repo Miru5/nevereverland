@@ -573,23 +573,25 @@ app.post('/api/send-party-answer',function(req,res) {
     });
 })
 
- app.get('/api/party', function (req, res) {
-        var player1 = req.param('player1');
-        
-              users.aggregate([
-                {'$unwind': '$friends'},
-                {'$match':{
-                $and:[
+app.get('/api/party', function (req, res) {
+    var player1 = req.param('player1');
+
+    users.aggregate([
+        {'$unwind': '$friends'},
+        {'$match':{
+            $and:[
                 {"friends.inparty":
-                "yes" },
-                {username:"{$ne:player1}"}
-                ]}},
-                {'$group':
-                {
-                    '_id': '$friends.username',
-                   "party": { "$members": "$friends" }
-                }
-                }]).toArray(function (err, items) {
+                    "yes" },
+                {"friends.username":{$ne:player1}}
+            ]}}
+        ,
+        {'$group':
+        {
+            '_id': "username",
+            'members':
+            {'$push': '$friends'}
+        }
+        }]).toArray(function (err, items) {
         res.send(JSON.stringify(items));
     })
 });
