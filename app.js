@@ -467,34 +467,34 @@ sendPartyAnswer = function(from,to,ans,callback){
        
        if(ans=="yes"){
            answer = "accepted";
-            users.find({"username": to}).toArray(function (err, items) {
+            users.find({"username": from}).toArray(function (err, items) {
                  username = items[0]["username"];
                   lvl = items[0]["lvl"];
                   charclass = items[0]["charclass"];
-                //   hp = items[0]["hp"];
-                  xp = items[0]["xp"]; 
+                  status = items[0]["status"];
+                  xp = items[0]["xp"];
+                  dp = items[0]["dp"];
         users.update({"username": to},
            {$push: {
-        "party":{ "username":from,"lvl":lvl,"charclass":charclass,"xp":xp}}})
+        "party":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
             });
             
              users.find({"username": to}).toArray(function (err, items) {
-                 username = items[0]["username"];
+                    username = items[0]["username"];
                   lvl = items[0]["lvl"];
                   charclass = items[0]["charclass"];
+                  status = items[0]["status"];
                   dp = items[0]["dp"];
-                
+                   xp = items[0]["xp"];
         users.update({"username": from},
            {$push: {
-        "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"xp":xp}}})
+        "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
             });
-            
-             users.update({"username": to},
+                  users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
         }
-       
-   else{
+    else{
           answer = "denied";
                 users.update({"username": to},
         {$push: {
@@ -508,7 +508,7 @@ sendPartyAnswer = function(from,to,ans,callback){
                         registration_ids: [r_id],
                         data: {
                             key1: from,
-                            key2: from +" has "+ answer + " your request.",
+                            key2: from +" has "+ answer + " your invite.",
                             type: "a",
                             answer:answer
                         }
