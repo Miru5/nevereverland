@@ -579,13 +579,10 @@ users.find({"username": {$ne: player}}).toArray(function (err, items) {
             console.log(xid);
             users.update(
                 {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
-                {$set: { "friends.$.inparty" : "no" } }
+                {$pullAll: { "friends.$.username" : player } }
             )
             
-            users.update(
-                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
-                {$pullAll: { "$party.$.username" : player } }
-            )
+        
             
     });
 }
