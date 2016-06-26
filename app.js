@@ -449,7 +449,7 @@ app.post('/api/send-party-invite',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
     
-    sendRequest(from,to,function (found) {
+    sendInvite(from,to,function (found) {
         console.log(found);
         res.json(found);
     });
