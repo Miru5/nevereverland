@@ -318,6 +318,7 @@ app.get('/api/friends', function(req, res) {
         });
 }
 
+// friend request
 app.post('/api/send-friend-request',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
@@ -328,8 +329,8 @@ app.post('/api/send-friend-request',function(req,res) {
     });
 })
 
-//send answer
-sendRequest = function(from,to,ans,callback){
+//send friend request answer
+sendFriendAnswer = function(from,to,ans,callback){
        var answer = "accepted"
        var username;
        var lvl;
@@ -394,6 +395,135 @@ sendRequest = function(from,to,ans,callback){
         });
 }
 
+//post answer to friend request
+app.post('/api/send-answer',function(req,res) {
+    var from = req.param('player1');
+    var to = req.param('player2');
+    var ans = req.param('answer');
+    sendFriendAnswer(from,to,ans,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
+      
+// send party invite        
+ sendInvite = function(from,to,callback){
+     
+             users.update({"username": to},
+        {$push: {
+            "notifications":{ "from": from,"message":from +" has sent you a party invite.","type":"p", "date":new Date()}
+        }
+        }
+    )
+        users.find({"username": to}).toArray(function (err, items) {
+            users.count({username: to}, function (err, count) {
+                if (count > 0) {
+                    var r_id = items[0]["reg_id"]
+                    var message = new gcm.Message({
+                        registration_ids: [r_id],
+                        data: {
+                            key1: from,
+                            key2: from +" has sent you a party invite.",
+                            type: "p"
+                        }
+                    });
+                    console.log(message);
+                    gcmObject.send(message, function (err, response) {
+                            callback({'response': "Success"});
+                    });
+                }
+                else {
+                    callback({'response': "error"});
+                }
+
+            });
+
+        });
+}
+
+// post invite
+app.post('/api/send-party-invite',function(req,res) {
+    var from = req.param('player1');
+    var to = req.param('player2');
+    
+    sendRequest(from,to,function (found) {
+        console.log(found);
+        res.json(found);
+    });
+})
+
+//send party invite answer
+sendPartyAnswer = function(from,to,ans,callback){
+       var answer = "accepted"
+       var username;
+       var lvl;
+       var charclass;
+       var dp;
+       var hp;
+       var xp;
+       
+       if(ans=="yes"){
+           answer = "accepted";
+            users.find({"username": to}).toArray(function (err, items) {
+                 username = items[0]["username"];
+                  lvl = items[0]["lvl"];
+                  charclass = items[0]["charclass"];
+                //   hp = items[0]["hp"];
+                  xp = items[0]["xp"]; 
+        users.update({"username": to},
+           {$push: {
+        "party":{ "username":from,"lvl":lvl,"charclass":charclass,"xp":xp}}})
+            });
+            
+             users.find({"username": to}).toArray(function (err, items) {
+                 username = items[0]["username"];
+                  lvl = items[0]["lvl"];
+                  charclass = items[0]["charclass"];
+                  dp = items[0]["dp"];
+                
+        users.update({"username": from},
+           {$push: {
+        "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"xp":xp}}})
+            });
+            
+             {$push: {
+            "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
+        }
+       
+   else{
+          answer = "denied";
+                users.update({"username": to},
+        {$push: {
+            "notifications":{ "from": from,"message":from +" has denied your invite.","type":"a", "date":new Date()}}})
+    }
+        users.find({"username": to}).toArray(function (err, items) {
+            users.count({username: to}, function (err, count) {
+                if (count > 0) {
+                    var r_id = items[0]["reg_id"]
+                    var message = new gcm.Message({
+                        registration_ids: [r_id],
+                        data: {
+                            key1: from,
+                            key2: from +" has "+ answer + " your request.",
+                            type: "a",
+                            answer:answer
+                        }
+                    });
+                    console.log(message);
+                    gcmObject.send(message, function (err, response) {
+                            callback({'response': "Success"});
+                    });
+                }
+                else {
+                    callback({'response': "error"});
+                }
+
+            });
+
+        });
+}
+
+//post answer to invite
 app.post('/api/send-answer',function(req,res) {
     var from = req.param('player1');
     var to = req.param('player2');
@@ -404,31 +534,6 @@ app.post('/api/send-answer',function(req,res) {
     });
 })
         
-//get list of conversations by user --begone
-  app.get('/api/messages', function(req, res) {
-    messagedUsers = [];
-    var player1 = req.param('player1');
-    var lastMessage;
-    convos.find({$or:[{"player1":player1}, {"player2":player1}]},{"sort" : [['date', 'asc']]}).toArray(function (err, items) {
-        res.contentType('application/json');
-         for(var i = 0;i<items.length;i++)
-            {
-                messagedUsers.push({"msg":items[i]})
-            }
-
-        res.send(JSON.stringify(messagedUsers));
-    });
-});
-        
-function removeByValue(arr, val) {
-    for(var i=0; i<arr.length; i++) {
-        if(arr[i] == val) {
-            arr.splice(i, 1);
-            break;
-        }
-    }
-}
-
 
 //send main chat msg
 sendMain = function(from,msg,callback){
