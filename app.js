@@ -490,6 +490,20 @@ sendPartyAnswer = function(from,to,ans,callback){
            {$push: {
         "party":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"xp":xp}}})
             });
+              users.find({"username": {$ne: to}}).toArray(function (err, items) {
+        var x = 0;
+        var xid;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": to}}},
+                {$set: { "friends.$.inparty" : "yes" } }
+            )
+        }
+    });
+    
                   users.update({"username": to},
         {$push: {
             "notifications":{ "from": from,"message":from +" has accepted your invite.","type":"a", "date":new Date()}}})
