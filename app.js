@@ -337,6 +337,8 @@ sendFriendAnswer = function(from,to,ans,callback){
        var charclass;
        var dp;
        var status;
+       var xp;
+       var hp;
        
        if(ans=="yes"){
            answer = "accepted";
@@ -346,9 +348,11 @@ sendFriendAnswer = function(from,to,ans,callback){
                   charclass = items[0]["charclass"];
                   status = items[0]["status"];
                   dp = items[0]["dp"];
+                  xp = items[0]["xp"];
+                 
         users.update({"username": to},
            {$push: {
-        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no"}}})
+        "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no","xp":xp,}}})
             });
             
              users.find({"username": to}).toArray(function (err, items) {
@@ -357,9 +361,10 @@ sendFriendAnswer = function(from,to,ans,callback){
                   charclass = items[0]["charclass"];
                   status = items[0]["status"];
                   dp = items[0]["dp"];
+                  xp = items[0]["xp"];
         users.update({"username": from},
            {$push: {
-        "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no"}}})
+        "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no","xp":xp}}})
             });
                   users.update({"username": to},
         {$push: {
