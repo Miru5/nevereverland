@@ -345,16 +345,13 @@ sendFriendAnswer = function(from,to,ans,callback){
                   lvl = items[0]["lvl"];
                   charclass = items[0]["charclass"];
                   status = items[0]["status"];
+                  dp = items[0]["dp"];
         users.update({"username": to},
            {$push: {
         "friends":{ "username": from,"lvl":lvl,"charclass":charclass,"status":status}}})
             });
             
              users.find({"username": to}).toArray(function (err, items) {
-                 username = items[0]["username"];
-                  lvl = items[0]["lvl"];
-                  charclass = items[0]["charclass"];
-                  dp = items[0]["dp"];
                   
         users.update({"username": from},
            {$push: {
