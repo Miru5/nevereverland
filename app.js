@@ -671,7 +671,6 @@ app.post('/api/leave-party',function(req,res) {
         gcmObject.send(message, function (err, response) {
             callback({'response': JSON.stringify(message)});
         });
-        
     });
         
          users.find({"username": {$ne: player}}).toArray(function (err, items) {
