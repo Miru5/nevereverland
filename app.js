@@ -632,7 +632,7 @@ leaveParty = function(player,callback){
         var xid;
         // remove from my object 1st
         users.find({"username":player}).toArray(function (err, items) {
-         id = items["_id"];
+         id = items[0]["_id"];
          users.update(
                 {'_id': new ObjectId(id)},
                 {$set: { "friends.$.inparty" : "no" } }
