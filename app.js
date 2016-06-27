@@ -441,7 +441,7 @@ app.post('/api/send-answer',function(req,res) {
         }]).toArray(function (err, items) {
        var count;
        count = items.length;
-    if(items.length<=2){
+    if(items.length<=1){
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
                 if (count > 0) {
