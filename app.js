@@ -632,8 +632,12 @@ leaveParty = function(player,callback){
         var xid;
         // remove from my object 1st
         users.find({"username":player}).toArray(function (err, items) {
-        var x = 0;
          id = items["_id"];
+         users.update(
+                {'_id': new ObjectId(id)},
+                {$set: { "friends.$.inparty" : "no" } }
+            )
+        });
               users.find({"username": {$ne: player}}).toArray(function (err, items) {
 
         while (x < items.length) {
@@ -645,11 +649,6 @@ leaveParty = function(player,callback){
                 {$set: { "friends.$.inparty" : "no" } }
             )
         }
-         users.update(
-                {'_id': new ObjectId(id)},
-                {$set: { "friends.$.inparty" : "no" } }
-            )
-    });
             
     });
 }
