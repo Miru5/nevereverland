@@ -149,7 +149,7 @@ app.post('/api/set-class', function(req, res) {
 app.post('/api/setxp', function(req, res) {
      var id = req.param('id');
     var player = req.param('player');
-    var xp = req.param('xp');
+    var xp = parseInt(req.param('xp'));
     var xid;
     xp = xp+10;
    users.update({'_id' : new ObjectId(id)}, { $inc: { xp:10}});
