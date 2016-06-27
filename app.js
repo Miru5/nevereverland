@@ -646,6 +646,7 @@ app.post('/api/leave-party',function(req,res) {
             var name = friends[i].username;
             var par = friends[i].inparty;
             var regid = friends[i].regid;
+            console.log(regid);
             
             if(par=="yes"){
                  if(name!=player){
