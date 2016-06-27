@@ -423,25 +423,7 @@ app.post('/api/send-answer',function(req,res) {
         }
         }
     )
-    users.aggregate([
-        {'$unwind': '$friends'},
-        {'$match':{
-            $and:[
-                {"friends.inparty":
-                    "yes" },
-                {"friends.username":{$ne:from}}
-            ]}}
-        ,
-        {'$group':
-        {
-            '_id': "$username",
-            'members':
-            {'$push': '$friends'}
-        }
-        }]).toArray(function (err, items) {
-       var count;
-       count = items.length;
-    if(items.length<=1){
+    
         users.find({"username": to}).toArray(function (err, items) {
             users.count({username: to}, function (err, count) {
                 if (count > 0) {
@@ -466,28 +448,6 @@ app.post('/api/send-answer',function(req,res) {
             });
 
           });
-    }
-    else
-    {
-         users.find({"username": from}).toArray(function (err, items) {
-         var r_id = items[0]["reg_id"]
-                    var message = new gcm.Message({
-                        registration_ids: [r_id],
-                        data: {
-                            key1: from,
-                            key2: "You can't have more than "+ count+1 + "party members",
-                            type: "n"
-                        }
-                    });
-                    console.log(message);
-                    gcmObject.send(message, function (err, response) {
-                            callback({'response': "Success"});
-                    });
-    });
-    
-        }
-    
-});
 }
 
 // post invite
