@@ -637,9 +637,10 @@ app.post('/api/leave-party',function(req,res) {
             {'_id': new ObjectId(id)},
             {$set: { "friends.$.inparty" : "no" } }
         )
-
+      
   
     });
+    res.send("ok");
 })
 
         
