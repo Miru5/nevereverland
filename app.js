@@ -634,7 +634,7 @@ app.post('/api/leave-party',function(req,res) {
     users.find({"username":player}).toArray(function (err, items) {
         id = items[0]["_id"];
         users.update(
-            {'_id': new ObjectId(id)},"friends":{$elemMatch: {"username": {$ne:player}}},
+            {'_id': new ObjectId(id)},
             {$set: { "friends.$.inparty" : "no" } }
         )
         
