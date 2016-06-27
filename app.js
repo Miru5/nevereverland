@@ -662,8 +662,8 @@ app.post('/api/leave-party',function(req,res) {
          var message = new gcm.Message({
             registration_ids: regids,
             data: {
-                key1: from,
-                key2: msg,
+                key1: player,
+                key2: "left.",
                 type: "p"
             }
         });
