@@ -160,7 +160,7 @@ app.post('/api/setxp', function(req, res) {
             console.log(xid);
             users.update(
                 {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
-                {$set: { "friends.$.hp" : xp+10 } }
+                {$set: { "friends.$.xp" : xp+10 } }
             )
         }
         });
