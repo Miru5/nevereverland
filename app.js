@@ -147,9 +147,23 @@ app.post('/api/set-class', function(req, res) {
 
 //set xp
 app.post('/api/setxp', function(req, res) {
-    var id = req.param('id');
-
-        users.update({'_id' : new ObjectId(id)}, { $inc: { xp:10}});
+     var id = req.param('id');
+    var player = req.param('player');
+    var xid;
+   users.update({'_id' : new ObjectId(id)}, { $inc: { xp:10}});
+    users.find({"username": {$ne: player}}).toArray(function (err, items) {
+        var x = 0;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
+                {$set: { "friends.$.xp" :{ $inc: { xp:10} } }
+            )
+        }
+        });
+        
         res.send("ok");
 })
 
