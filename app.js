@@ -257,6 +257,29 @@ app.post('/api/set_picture', function(req, res) {
        
 })
 
+app.post('/api/set-hp', function(req, res) {
+
+    var xid;
+    var hp = req.param('hp');
+    var player = req.param('player');
+    users.update({'_id' : new ObjectId(id)}, { $set: { hp:hp}});
+    users.find({"username": {$ne: player}}).toArray(function (err, items) {
+
+        var x = 0;
+        while (x < items.length) {
+            xid = items[x]["_id"];
+            x++;
+            console.log(xid);
+            users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
+                {$set: { "friends.$.hp" : hp } }
+            )
+        }
+        res.send("ok");
+        });
+       
+})
+
 //get list of friends for user
 app.get('/api/friends', function(req, res) {
 
