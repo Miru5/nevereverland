@@ -628,14 +628,14 @@ app.get('/api/members-count', function (req, res) {
 leaveParty = function(player,callback){  
 // users.find({"username": {$ne: player}}).toArray(function (err, items) {
         var x = 0;
+        var id;
         var xid;
         // remove from my object 1st
         users.find({"username":player}).toArray(function (err, items) {
         var x = 0;
-        var xid = items["_id"];
+         id = items["_id"];
               users.find({"username": {$ne: player}}).toArray(function (err, items) {
-        var x = 0;
-        var xid;
+
         while (x < items.length) {
             xid = items[x]["_id"];
             x++;
@@ -646,7 +646,7 @@ leaveParty = function(player,callback){
             )
         }
          users.update(
-                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": {$ne:player}}}},
+                {'_id': new ObjectId(id)},
                 {$set: { "friends.$.inparty" : "no" } }
             )
     });
