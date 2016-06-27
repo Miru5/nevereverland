@@ -669,7 +669,7 @@ app.post('/api/leave-party',function(req,res) {
         });
         console.log(message);
         gcmObject.send(message, function (err, response) {
-            callback({'response': JSON.stringify(message)});
+            res.send(JSON.stringify(message)});
         });
     });
         
