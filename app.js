@@ -645,6 +645,10 @@ leaveParty = function(player,callback){
                 {$set: { "friends.$.inparty" : "no" } }
             )
         }
+         users.update(
+                {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": {$ne:player}}}},
+                {$set: { "friends.$.inparty" : "no" } }
+            )
     });
             
     });
