@@ -633,6 +633,7 @@ app.post('/api/leave-party',function(req,res) {
     var friends;
     var friendsinparty = [];
     var regids = [];
+    var message;
 
     users.find({"username":player}).toArray(function (err, items) {
         id = items[0]["_id"];
@@ -659,7 +660,7 @@ app.post('/api/leave-party',function(req,res) {
         });
         }
         
-         var message = new gcm.Message({
+          message = new gcm.Message({
             registration_ids: regids,
             data: {
                 key1: player,
