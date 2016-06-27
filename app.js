@@ -655,8 +655,9 @@ app.post('/api/leave-party',function(req,res) {
 
         }
         for(var i=0;i<friendsinparty.length;i++){
-        users.find({"username": {$ne: friendsinparty[i]}}).toArray(function (err, items) {
+        users.find({"username":friendsinparty[i]}).toArray(function (err, items) {
             regids.push(items[0]["reg_id"]);
+            console.log(regids[i]);
         });
         }
         
