@@ -364,7 +364,7 @@ sendFriendAnswer = function(from,to,ans,callback){
                   status = items[0]["status"];
                   dp = items[0]["dp"];
                   xp = items[0]["xp"];
-                  regid = items[0]["regid"];
+                  regid = items[0]["reg_id"];
         users.update({"username": from},
            {$push: {
         "friends":{ "username": to,"lvl":lvl,"charclass":charclass,"dp":dp,"status":status,"inparty":"no","xp":xp,"regid":regid}}})
