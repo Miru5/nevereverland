@@ -686,7 +686,7 @@ app.post('/api/leave-party',function(req,res) {
 
     });
      
-    res.send("ok");
+    res.send(JSON.stringify(message));
 })
 
         
