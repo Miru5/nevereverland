@@ -611,12 +611,11 @@ app.get('/api/members-count', function (req, res) {
         ,
         {'$group':
         {
-            '_id': "username",
-            'members':
-            {'$push': '$friends'}
+            '_id': "$username",
+            'total' : { $sum: 1 }
         }
         }]).toArray(function (err, items) {
-       res.send(JSON.stringify(items.length));
+        res.send(JSON.stringify(items[0].total));
     })
 });
 
