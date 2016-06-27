@@ -615,7 +615,7 @@ app.get('/api/members-count', function (req, res) {
             'total' : { $sum: 1 }
         }
         }]).toArray(function (err, items) {
-            if(items[0].total!=undefined){
+            if(items!=undefined){
         res.send(JSON.stringify(items[0].total));
             }
             else{
