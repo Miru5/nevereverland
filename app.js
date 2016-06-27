@@ -588,12 +588,35 @@ app.get('/api/party', function (req, res) {
         ,
         {'$group':
         {
-            '_id': "username",
+            '_id': "$username",
             'members':
             {'$push': '$friends'}
         }
         }]).toArray(function (err, items) {
         res.send(JSON.stringify(items));
+    })
+});
+
+app.get('/api/members-count', function (req, res) {
+    var player1 = req.param('player1');
+
+    users.aggregate([
+        {'$unwind': '$friends'},
+        {'$match':{
+            $and:[
+                {"friends.inparty":
+                    "yes" },
+                {"friends.username":{$ne:player1}}
+            ]}}
+        ,
+        {'$group':
+        {
+            '_id': "username",
+            'members':
+            {'$push': '$friends'}
+        }
+        }]).toArray(function (err, items) {
+        res.send(items.length);
     })
 });
 
