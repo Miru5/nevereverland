@@ -665,8 +665,8 @@ app.post('/api/leave-party',function(req,res) {
             registration_ids: regids,
             data: {
                 key1: player,
-                key2: "left.",
-                type: "p"
+                key2: "has left.",
+                type: "n"
             }
         });
         
