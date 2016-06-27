@@ -631,6 +631,8 @@ app.post('/api/leave-party',function(req,res) {
     var id;
     var xid;
     var friends;
+    var friendsinparty = [];
+    var regids = [];
 
     users.find({"username":player}).toArray(function (err, items) {
         id = items[0]["_id"];
@@ -639,7 +641,11 @@ app.post('/api/leave-party',function(req,res) {
        for(var i=0;i<friends.length;i++) {
             var name = friends[i].username;
             var par = friends[i].inparty;
+            
             if(par=="yes"){
+                 if(items[i]["username"]!=from){
+                friendsinparty.push(name);
+            }
                     users.update(
                         {'_id': new ObjectId(id),"friends":{$elemMatch: {"username": name}}},
                         {$set: {"friends.$.inparty": "no"}}
@@ -647,6 +653,25 @@ app.post('/api/leave-party',function(req,res) {
             }
 
         }
+        for(var i=0;i<friendsinparty.length;i++){
+        users.find({"username": {$ne: friendsinparty[i]}}).toArray(function (err, items) {
+            regids.push(items[0]["reg_id"]);
+        });
+        }
+        
+         var message = new gcm.Message({
+            registration_ids: regids,
+            data: {
+                key1: from,
+                key2: msg,
+                type: "p"
+            }
+        });
+        console.log(message);
+        gcmObject.send(message, function (err, response) {
+            callback({'response': JSON.stringify(message)});
+        });
+        
     });
         
          users.find({"username": {$ne: player}}).toArray(function (err, items) {
