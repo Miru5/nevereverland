@@ -161,7 +161,7 @@ app.post('/api/setxp', function(req, res) {
                 {'_id': new ObjectId(xid),"friends":{$elemMatch: {"username": player}}},
                  { "friends.$.xp" :{ $inc: { xp:10} } }
             )
-    
+        }
         });
         
         res.send("ok");
