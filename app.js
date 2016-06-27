@@ -616,7 +616,7 @@ app.get('/api/members-count', function (req, res) {
             {'$push': '$friends'}
         }
         }]).toArray(function (err, items) {
-        res.send(items.length);
+       res.send(JSON.stringify({"count":items.length}));
     })
 });
 
