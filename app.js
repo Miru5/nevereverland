@@ -668,9 +668,9 @@ app.post('/api/leave-party',function(req,res) {
                 type: "p"
             }
         });
-        console.log(message);
+        
         gcmObject.send(message, function (err, response) {
-            res.send(JSON.stringify(message));
+           console.log(message);
         });
     });
         
@@ -687,7 +687,7 @@ app.post('/api/leave-party',function(req,res) {
 
     });
      
-    res.send(JSON.stringify(message));
+    res.send("ok");
 })
 
         
