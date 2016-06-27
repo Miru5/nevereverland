@@ -630,17 +630,15 @@ app.post('/api/leave-party',function(req,res) {
     var x = 0;
     var id;
     var xid;
-    // remove from my object 1st
+
     users.find({"username":player}).toArray(function (err, items) {
         id = items[0]["_id"];
         users.update(
             {'_id': new ObjectId(id)},
             {$set: { "friends.$.inparty" : "no" } }
         )
-    });
-    
-    //set inparty to "no" foreach friend
-      users.find({"username": {$ne: player}}).toArray(function (err, items) {
+        
+         users.find({"username": {$ne: player}}).toArray(function (err, items) {
         while (x < items.length) {
             xid = items[x]["_id"];
             x++;
@@ -652,6 +650,9 @@ app.post('/api/leave-party',function(req,res) {
         }
 
     });
+    });
+    
+     
     res.send("ok");
 })
 
