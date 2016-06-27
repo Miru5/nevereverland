@@ -625,20 +625,20 @@ app.get('/api/members-count', function (req, res) {
 });
 
 //leave party
-leaveParty = function(player,callback){  
-// users.find({"username": {$ne: player}}).toArray(function (err, items) {
-        var x = 0;
-        var id;
-        var xid;
-        // remove from my object 1st
-        users.find({"username":player}).toArray(function (err, items) {
-         id = items[0]["_id"];
-         users.update(
-                {'_id': new ObjectId(id)},
-                {$set: { "friends.$.inparty" : "no" } }
-            )
-        });
-              users.find({"username": {$ne: player}}).toArray(function (err, items) {
+app.post('/api/leave-party',function(req,res) {
+    var player = req.param('player');
+    var x = 0;
+    var id;
+    var xid;
+    // remove from my object 1st
+    users.find({"username":player}).toArray(function (err, items) {
+        id = items[0]["_id"];
+        users.update(
+            {'_id': new ObjectId(id)},
+            {$set: { "friends.$.inparty" : "no" } }
+        )
+
+    users.find({"username": {$ne: player}}).toArray(function (err, items) {
 
         while (x < items.length) {
             xid = items[x]["_id"];
@@ -649,18 +649,11 @@ leaveParty = function(player,callback){
                 {$set: { "friends.$.inparty" : "no" } }
             )
         }
-            
-    });
-}
 
-//post leave party
-app.post('/api/leave-party',function(req,res) {
-    var player = req.param('player');
-    leaveParty(player,function (found) {
-        console.log(found);
-        res.json(found);
+    });
     });
 })
+
         
 
 //send main chat msg
