@@ -259,9 +259,10 @@ app.post('/api/set_picture', function(req, res) {
 
 app.post('/api/set-hp', function(req, res) {
 
-    var xid;
+    var id = req.param('id');
     var hp = req.param('hp');
     var player = req.param('player');
+    var xid;
     users.update({'_id' : new ObjectId(id)}, { $set: { hp:hp}});
     users.find({"username": {$ne: player}}).toArray(function (err, items) {
 
