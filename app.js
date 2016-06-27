@@ -643,7 +643,7 @@ app.post('/api/leave-party',function(req,res) {
             var par = friends[i].inparty;
             
             if(par=="yes"){
-                 if(items[i]["username"]!=from){
+                 if(items[i]["username"]!=player){
                 friendsinparty.push(name);
             }
                     users.update(
