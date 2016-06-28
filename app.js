@@ -139,9 +139,9 @@ app.post('/api/set-online', function(req, res) {
 app.post('/api/set-class', function(req, res) {
     var id = req.param('id');
     var charClass = req.param('charClass');
-
-        doc = users.findOne({_id:id})
-        users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1}});
+    var regID = req.param('regid');
+    
+        users.update({'_id' : new ObjectId(id)}, {$set: {charclass:charClass,firstLogin:1,reg_id:regID}});
         res.send("ok");
 })
 
